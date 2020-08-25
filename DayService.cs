@@ -61,8 +61,11 @@ namespace CountIt
             Console.Clear();
             //do
             //{
+            Console.WriteLine("Type day of month... (example: '18')");
                 int.TryParse(Console.ReadLine(), out day);
+            Console.WriteLine("Type number of month... (example: '3')");
                 int.TryParse(Console.ReadLine(), out month);
+            Console.WriteLine("Type year... (example: '1998')");
                 int.TryParse(Console.ReadLine(), out year);
             //}
             //while (int.TryParse(Console.ReadLine(), out day) || int.TryParse(Console.ReadLine(), out month) || int.TryParse(Console.ReadLine(), out year));
