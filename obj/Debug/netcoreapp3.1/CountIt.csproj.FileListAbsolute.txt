@@ -1,0 +1,13 @@
+C:\Users\Zaicew\source\repos\CountIt\CountIt\bin\Debug\netcoreapp3.1\CountIt.exe
+C:\Users\Zaicew\source\repos\CountIt\CountIt\bin\Debug\netcoreapp3.1\CountIt.deps.json
+C:\Users\Zaicew\source\repos\CountIt\CountIt\bin\Debug\netcoreapp3.1\CountIt.runtimeconfig.json
+C:\Users\Zaicew\source\repos\CountIt\CountIt\bin\Debug\netcoreapp3.1\CountIt.runtimeconfig.dev.json
+C:\Users\Zaicew\source\repos\CountIt\CountIt\bin\Debug\netcoreapp3.1\CountIt.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt\bin\Debug\netcoreapp3.1\CountIt.pdb
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.csprojAssemblyReference.cache
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.AssemblyInfoInputs.cache
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.AssemblyInfo.cs
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.csproj.CoreCompileInputs.cache
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.pdb
+C:\Users\Zaicew\source\repos\CountIt\CountIt\obj\Debug\netcoreapp3.1\CountIt.genruntimeconfig.cache
