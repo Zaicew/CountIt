@@ -6,23 +6,23 @@ namespace CountIt
 {
     class Category
     {
-        public static int Id { get; set; }
+        private static int id;
         public string Name { get; set; }
-        public int TypeId { get; set; }
+        public int IdOfCategory { get; set; }
 
-        public List<Item> Items { get; set; }
+        //public List<Item> Items { get; set; }
         public Category()
         {
-            this.TypeId = 0;
+            this.IdOfCategory = 0;
             this.Name = "unsignedCategory";
-            this.Items = new List<Item>();
+            //this.Items = new List<Item>();
         }
 
         public Category(string name)
         {
-            this.TypeId = Id++;
+            this.IdOfCategory = id++;
             this.Name = name;
-            this.Items = new List<Item>();
+            //this.Items = new List<Item>();
         }
     }
 }

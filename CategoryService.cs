@@ -7,12 +7,14 @@ namespace CountIt
 {
     class CategoryService
     {
-        public List<Category> Categories { get; set; }
+        internal List<Category> Categories { get; set; }
 
         public CategoryService()
         {
-            Categories = new List<Category>();
-            Categories.Add(new Category("unsignedCategory"));
+            Categories = new List<Category>
+            {
+                new Category("unsignedCategory")
+            };
         }
 
 
@@ -39,32 +41,30 @@ namespace CountIt
             Console.WriteLine("Please type name of category...");
             string nameOfCategory;
             nameOfCategory = Console.ReadLine();
-            if (isCategoryNameExist(nameOfCategory) == false)
+            if (IsCategoryNameExist(nameOfCategory) == false)
             {
                 Console.WriteLine($"Aplication actually contains that name of category! {nameOfCategory}");
                 var existedCategory = Categories.FirstOrDefault(s => s.Name == nameOfCategory);
-                return existedCategory.TypeId;
+                return existedCategory.IdOfCategory;
             }
             else
             {
                 var addedCategory = new Category(nameOfCategory);
                 Categories.Add(addedCategory);
-                return addedCategory.TypeId;
+                return addedCategory.IdOfCategory;
             }
         }
 
         public void WievAllCategories()
         {
             Console.Clear();
-            int i = 0;
             foreach(var item in Categories)
             {
-                Console.WriteLine($"{i}. Nazwa: {item.Name}, ID: {item.TypeId}.");
-                i++;
+                Console.WriteLine($"ID: {item.IdOfCategory}, Nazwa: {item.Name}, ID: {item.IdOfCategory}.");
             }
         }
 
-        public bool isCategoryNameExist(string input)
+        public bool IsCategoryNameExist(string input)
         {
             foreach(var item in Categories)
             {
@@ -81,28 +81,13 @@ namespace CountIt
             Categories.Add(new Category("Meat"));
         }
 
-        public void DeleteCategory(ItemService itemService)
+        public int DeleteCategory(ItemService itemService)
         {
             Console.Clear();
-            int choosenIdOfCategory;
-            do
-            {
-                Console.WriteLine($"Remmember, we cannot to delete {Categories[0].Name}");
-                Console.WriteLine("Type ID of category, which You want to delete...");
-                WievAllCategories();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfCategory) || !ChceckCategoryListContainsCurrentCategoryFromId(choosenIdOfCategory) || choosenIdOfCategory == 0);
-
-            string nameCategoryToDelete = Categories[choosenIdOfCategory].Name;
-            Category categoryToDelete = Categories[choosenIdOfCategory];
-            foreach (var element in itemService.Items)
-            {
-                if (element.Category.Name == nameCategoryToDelete)
-                    element.Category = Categories[0];
-            }
-            itemService.ShowAllProducts();
-
+            Category categoryToDelete = GetCategory();
             Categories.Remove(categoryToDelete);
+
+            return categoryToDelete.IdOfCategory;
 
         }
 
@@ -110,10 +95,23 @@ namespace CountIt
         {
             foreach (var item in Categories)
             {
-                if (item.TypeId == id)
+                if (item.IdOfCategory == id)
                     return true;
             }
             return false;
+        }
+
+        public Category GetCategory()
+        {
+            int choosenIdOfCategory;
+            do
+            {
+                Console.WriteLine("Choose category from list...");
+                WievAllCategories();
+            }
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfCategory) || !ChceckCategoryListContainsCurrentCategoryFromId(choosenIdOfCategory));
+
+            return Categories.FirstOrDefault(p => p.IdOfCategory == choosenIdOfCategory);
         }
     }
 }

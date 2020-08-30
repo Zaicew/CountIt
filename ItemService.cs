@@ -18,19 +18,6 @@ namespace CountIt
             Items = new List<Item>();
         }
 
-
-        //public ConsoleKeyInfo AddNewItemView(MenuActionService actionService)
-        //{
-        //    var ManagementApplicationMenuView = actionService.GetMenuActrionsByMenuName("ManagementApplication");
-        //    Console.WriteLine("Type Your product...");
-        //    foreach (var menuAction in ManagementApplicationMenuView)
-        //    {
-        //        Console.WriteLine($"{menuAction.Id}. {menuAction.Name}");
-        //    }
-        //    var operation = Console.ReadKey();
-        //    return operation;
-        //}
-
         public void AddNewItem(CategoryService categories)
         {
             if (categories.Categories.Count <= 0)
@@ -63,61 +50,27 @@ namespace CountIt
                     Console.WriteLine("Please type product carb/100g...");
                 }
                 while (double.TryParse(Console.ReadLine(), out carb) != true);
-                //int operation;
-                //do
-                //{
-                //    Console.Clear();
-                //    Console.WriteLine("Choose category (type corrct) (press number on your keyboard)...");
-                //    categories.WievAllCategories();
-                //}
-                //while (!int.TryParse(Console.ReadLine(), out operation) || operation > categories.Categories.Count);
-                Items.Add(new Item(name, kcal, fat, protein, carb, categories.Categories[0]));
-                //Items.Add(new Item(name, kcal, fat, protein, carb, categories.Categories[operation]));
-                ShowAllProducts();
+
+                var choosenCategory = categories.GetCategory();
+                Items.Add(new Item(name, kcal, fat, protein, carb, choosenCategory.IdOfCategory));
             }
         }
 
         public int SignProductToCategory(CategoryService categories)
         {
-            int choosenIdOfItem;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Type ID of product which You want to sign");
-                ShowAllProducts();
-            }
-            while(!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || !chceckItemListContainsCurrentItemFromId(choosenIdOfItem));
-            var choosenItem = Items[choosenIdOfItem];            
-            int choosenIdOfCategory;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine($"Choosen product: {choosenItem.Name}, {choosenItem.IdType}");
-                Console.WriteLine("Type category ID where you want to place choosen product...");
-                categories.WievAllCategories();                
-            }
-            while(!int.TryParse(Console.ReadLine(), out choosenIdOfCategory) || !chceckCategoryListContainsCurrentCategoryFromId(choosenIdOfCategory, categories));
-            //var choosenCategory = categories.Categories[choosenIdOfItem];
-            Category choosenCategory = categories.Categories.FirstOrDefault(p => p.TypeId == choosenIdOfCategory);
+            var choosenItem = GetItem();
+            var choosenCategory = categories.GetCategory();
 
-            choosenItem.Category = choosenCategory;
-            return choosenItem.IdType;
+            choosenItem.CategoryId = choosenCategory.IdOfCategory;
 
+            return choosenItem.Id;
         }
 
         public int DeleteProduct(CategoryService categoryService)
         {
-            int choosenProductIdToDelete;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Please type ID of product You want to delete...");
-                ShowAllProducts();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenProductIdToDelete) || !chceckItemListContainsCurrentItemFromId(choosenProductIdToDelete));
-            Item itemToDelete = Items[choosenProductIdToDelete];
-            Items.Remove(itemToDelete);
-            return itemToDelete.IdType;
+            var choosenItem = GetItem();
+            Items.Remove(choosenItem);
+            return choosenItem.Id;
         }
 
         public void ShowAllProducts()
@@ -125,27 +78,18 @@ namespace CountIt
             int i = 0;
             foreach (var item in Items)
             {
-                Console.WriteLine($"{i}. Name: {item.Name}, kcal: {item.Kcal}, fat: {item.Fat}, protein: {item.Protein}, carb: {item.Carb}, category: {item.Category.Name}.");
+                Console.WriteLine($"{item.Id}. Name: {item.Name}, kcal: {item.Kcal}, fat: {item.Fat}, protein: {item.Protein}, carb: {item.Carb}, category ID: {item.Id}.");
                 i++; 
             }
         }
         public void ShowAllProductsFromChoosenCategory(CategoryService categories)
         {
-            int choosenIdOfCategory;
-            do
-            {
-                Console.WriteLine("Type category ID...");
-                categories.WievAllCategories();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfCategory) || !chceckCategoryListContainsCurrentCategoryFromId(choosenIdOfCategory, categories));
-            int i = 0;
-            string choosenCategoryName = categories.Categories[choosenIdOfCategory].Name;
+            var choosenCategory = categories.GetCategory();
             foreach (var item in Items)
             {
-                if (item.Category.Name == choosenCategoryName)
+                if (item.CategoryId == choosenCategory.IdOfCategory)
                 {
-                    Console.WriteLine($"{i}. Name: {item.Name}, kcal: {item.Kcal}, fat: {item.Fat}, protein: {item.Protein}, carb: {item.Carb}, category: {item.Category.Name}.");
-                    i++;
+                    Console.WriteLine($"Name: {item.Name}, kcal: {item.Kcal}, fat: {item.Fat}, protein: {item.Protein}, carb: {item.Carb}, category ID: {item.CategoryId}.");
                 }
             }
         }
@@ -155,7 +99,7 @@ namespace CountIt
             Random rnd = new Random();
             foreach (var item in itemService.Items)
             {
-                item.Category = categoryService.Categories[rnd.Next(1, 3)];
+                item.CategoryId = categoryService.Categories[rnd.Next(1, 3)].IdOfCategory;
             }
         }
 
@@ -171,23 +115,37 @@ namespace CountIt
             }
         }
 
-        private bool chceckItemListContainsCurrentItemFromId(int id)
+        private bool ChceckItemListContainsCurrentItemFromId(int id)
         {
             foreach (var item in Items)
             {
-                if (item.IdType == id)
+                if (item.Id == id)
                     return true;
             }
             return false;
         }
-        private bool chceckCategoryListContainsCurrentCategoryFromId(int id, CategoryService categories)
+        private bool ChceckCategoryListContainsCurrentCategoryFromId(int id, CategoryService categories)
         {
             foreach (var item in categories.Categories)
             {
-                if (item.TypeId == id)
+                if (item.IdOfCategory == id)
                     return true;
             }
             return false;
+        }
+
+        public Item GetItem()
+        {
+            int choosenIdOfItem;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Type ID of product which You want to choose");
+                ShowAllProducts();
+            }
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || Items.Contains(Items.FirstOrDefault(s => s.Id == choosenIdOfItem)));
+
+            return Items.FirstOrDefault(s => s.Id == choosenIdOfItem);
         }
     }
 }

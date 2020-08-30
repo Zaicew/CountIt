@@ -7,7 +7,7 @@ namespace CountIt
 {
     class MealService
     {
-        public List<Meal> Meals { get; set; } 
+        private List<Meal> Meals { get; set; } 
         public MealService()
         {
             Meals = new List<Meal>();
@@ -25,7 +25,7 @@ namespace CountIt
         internal void ShowAllProductsFromMeal(Meal mealHolder)
         {
             foreach (var item in mealHolder.ProductsInMeal)
-                Console.WriteLine($"ID: {item.IdType}, name: {item.Name}");
+                Console.WriteLine($"ID: {item.Id}, name: {item.Name}");
         }
     }
 }

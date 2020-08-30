@@ -31,21 +31,14 @@ namespace CountIt
 
         public int AddNewMeal(MealService mealService)
         {
-            int choosenIdOfDay;
-            do
-            {
-                Console.WriteLine("Choose ID of day You want to add meal...");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfDay) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay)));
-            var choosenDay = Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay);
+            var choosenDay = GetDay();
+
             Console.WriteLine("Please type name of meal...");
             string nameOfMeal = Console.ReadLine();
             if (choosenDay.mealList.Contains(choosenDay.mealList.FirstOrDefault(s => s.nameOfMeal == nameOfMeal)))
             {
                 Console.WriteLine($"Current day contain that name of meal! {nameOfMeal}");
-                var existingNameOfMeal = MealsListInDay.FirstOrDefault(s => s.nameOfMeal == nameOfMeal);
-                return existingNameOfMeal.Id;
+                return MealsListInDay.FirstOrDefault(s => s.nameOfMeal == nameOfMeal).Id;
             }
             else
             {
@@ -70,6 +63,7 @@ namespace CountIt
             //}
             //while (int.TryParse(Console.ReadLine(), out day) || int.TryParse(Console.ReadLine(), out month) || int.TryParse(Console.ReadLine(), out year));
             DateTime dateTime = new DateTime(year, month, day);
+            DateTime.TryParse($"{day}/{month}/{year}", out dateTime);
             if (!IsDayExistinginDatabase(dateTime))
             {
                 Console.WriteLine($"Your data actually cotains typed day! {dateTime}");
@@ -88,63 +82,26 @@ namespace CountIt
 
         public void AddProductToMeal(ItemService itemService)
         {
-            int choosenIdOfItemToAddToMeal;
-            int choosenIdOfDay;
-            int choosenIdOfMeal;
             double howManyGrmasOfProduct;
-            //itemService.ShowAllProducts();
-
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Please type day ID, where You want to add product...");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfDay) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay)));
-            var dayHolder = Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay);
-            Console.WriteLine("id of day: " + choosenIdOfDay);
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Please type meal ID from day, where You want to add product...");
-                foreach (var item in dayHolder.mealList)
-                {
-                    Console.WriteLine($"ID: {item.Id}, name: {item.nameOfMeal}.");
-                }
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfMeal) || !dayHolder.mealList.Contains(dayHolder.mealList.FirstOrDefault(s => s.Id == choosenIdOfDay)));
-            var mealHolder = dayHolder.mealList.FirstOrDefault(s => s.Id == choosenIdOfDay);
-            Console.WriteLine("id of meal: " + choosenIdOfMeal);
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Please type product ID, which you want to add to meal...");
-                itemService.ShowAllProducts();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfItemToAddToMeal) || !itemService.Items.Contains(itemService.Items.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal)));
-            Console.WriteLine("id item to add meal : " + choosenIdOfItemToAddToMeal);
-            var itemHolder = itemService.Items.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal);
+            var dayHolder = GetDay();
+            var mealHolder = GetMealFromDay(dayHolder);
+            var itemHolder = itemService.GetItem();
+            
             do
             {
                 Console.Clear();
                 Console.WriteLine("Type how many grams of choosen product You want to add...");
             }
             while (!double.TryParse(Console.ReadLine(), out howManyGrmasOfProduct));
+
             Console.WriteLine("how many grams: " + howManyGrmasOfProduct);
-            mealHolder.ProductsInMeal.Add(itemService.Items.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal));
 
+            mealHolder.ProductsInMeal.Add(itemHolder);
             mealHolder.HowManyGramsOfProduct.Add(howManyGrmasOfProduct);
-            mealHolder.TotalCarbs += Math.Round(itemHolder.Carb * howManyGrmasOfProduct / 100, 2);
-            mealHolder.TotalFat += Math.Round(itemHolder.Fat * howManyGrmasOfProduct / 100, 2);
-            mealHolder.TotalKcal += Math.Round(itemHolder.Kcal * howManyGrmasOfProduct / 100, 2);
-            mealHolder.TotalProtein += Math.Round(itemHolder.Protein * howManyGrmasOfProduct / 100, 2);
 
-            dayHolder.TotalCarbs += Math.Round(mealHolder.TotalCarbs, 2);
-            dayHolder.TotalFat += Math.Round(mealHolder.TotalFat, 2);
-            dayHolder.TotalKcal += Math.Round(mealHolder.TotalKcal, 2);
-            dayHolder.TotalProtein += Math.Round(mealHolder.TotalProtein, 2);
+            RecalculateMacrosInMeal(mealHolder, itemHolder, howManyGrmasOfProduct, '+');
+            RecalculateMacrosInDay(dayHolder, mealHolder, '+');
 
-            Console.WriteLine("Added day: " + mealHolder.ProductsInMeal.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal));
             Console.WriteLine("Added grams of product: " + mealHolder.HowManyGramsOfProduct[0]);
             Console.WriteLine("Total Carbs: " + mealHolder.TotalCarbs);
             Console.WriteLine("Total fat: " + mealHolder.TotalFat);
@@ -154,58 +111,25 @@ namespace CountIt
 
         internal void ShowMealMacro()
         {
-            int dayId, mealId;
-            do
-            {
-                Console.WriteLine("Type ID of day from which you want to delete meal...");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out dayId) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == dayId)));
-            var dayHolder = Days.FirstOrDefault(s => s.IdOfDay == dayId);
-            do
-            {
-                Console.WriteLine("Type ID of meal from choosen day you want to delete...");
-                ShowAllMealsFromDay(dayHolder);
-            }
-            while (!int.TryParse(Console.ReadLine(), out mealId) || !dayHolder.mealList.Contains(dayHolder.mealList.FirstOrDefault(s => s.Id == mealId)));
-            var mealHolder = dayHolder.mealList.FirstOrDefault(s => s.Id == mealId);
+            var dayHolder = GetDay();
+            var mealHolder = GetMealFromDay(dayHolder);
 
             Console.WriteLine($"(Total's) Carb: {mealHolder.TotalCarbs}, fat: {mealHolder.TotalFat}, protein: {mealHolder.TotalProtein}, kcal: {mealHolder.TotalKcal}. ");
         }
 
         public int DeleteMeal()
         {
-            int dayId, mealIdToDelete;
-            do
-            {
-                Console.WriteLine("Type ID of day from which you want to delete meal...");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out dayId) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == dayId)));
-            var dayHolder = Days.FirstOrDefault(s => s.IdOfDay == dayId);
-            do
-            {
-                Console.WriteLine("Type ID of meal from choosen day you want to delete...");
-                ShowAllMealsFromDay(dayHolder);
-            }
-            while (!int.TryParse(Console.ReadLine(), out mealIdToDelete) || !dayHolder.mealList.Contains(dayHolder.mealList.FirstOrDefault(s => s.Id == mealIdToDelete)));
-            var mealToDelete = dayHolder.mealList.FirstOrDefault(s => s.Id == mealIdToDelete);
+            var dayHolder = GetDay();
+            var mealToDelete = GetMealFromDay(dayHolder);
 
             dayHolder.mealList.Remove(mealToDelete);
 
-            return dayHolder.IdOfDay;
+            return mealToDelete.Id;
         }
 
         public void ShowDayMacro()
         {
-            int dayId;
-            do
-            {
-                Console.WriteLine("Type ID of day from which you want to see macros...");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out dayId) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == dayId)));
-            var dayHolder = Days.FirstOrDefault(s => s.IdOfDay == dayId);
+            var dayHolder = GetDay();
 
             Console.WriteLine($"Id: {dayHolder.IdOfDay}, date: {dayHolder.dateTime}, total carb: {dayHolder.TotalCarbs}" +
                 $", total fat: {dayHolder.TotalFat}, total protein: {dayHolder.TotalProtein}, total kcal: {dayHolder.TotalKcal} ");
@@ -221,73 +145,35 @@ namespace CountIt
 
         public int DeleteDay()
         {
-            int dayIdToDelete;
-            do
-            {
-                Console.WriteLine("Type ID of day you want to delete: ");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out dayIdToDelete) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == dayIdToDelete)));
-            var dayHolder = Days.FirstOrDefault(s => s.IdOfDay == dayIdToDelete);
+            var dayHolder = GetDay();
             Days.Remove(dayHolder);
             return dayHolder.IdOfDay;
         }
 
         public void RemoveProductFromMeal(MealService mealService)
         {
-            int choosenIdOfItemToAddToMeal;
-            int choosenIdOfDay;
-            int choosenIdOfMeal;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Please type day ID, where You want to delete product...");
-                ShowAllDays();
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfDay) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay)));
-            var dayHolder = Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay);
-            Console.WriteLine("id of day: " + choosenIdOfDay);
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Please type meal ID from day, where You want to delete product...");
-                foreach (var item in dayHolder.mealList)
-                {
-                    Console.WriteLine($"ID: {item.Id}, name: {item.nameOfMeal}.");
-                }
-            }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfMeal) || !dayHolder.mealList.Contains(dayHolder.mealList.FirstOrDefault(s => s.Id == choosenIdOfDay)));
-            var mealHolder = dayHolder.mealList.FirstOrDefault(s => s.Id == choosenIdOfDay);
-            Console.WriteLine("id of meal: " + choosenIdOfMeal);
+            var dayHolder = GetDay();
+            var mealHolder = GetMealFromDay(dayHolder);
+            int choosenIdOfItem;
             do
             {
                 Console.Clear();
                 Console.WriteLine("Please type product ID, which you want to delete from meal...");
                 mealService.ShowAllProductsFromMeal(mealHolder);
             }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfItemToAddToMeal) || !mealHolder.ProductsInMeal.Contains(mealHolder.ProductsInMeal.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal)));
-            Console.WriteLine("item id to delete meal : " + choosenIdOfItemToAddToMeal);
-            var itemHolder = mealHolder.ProductsInMeal.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal);
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || !mealHolder.ProductsInMeal.Contains(mealHolder.ProductsInMeal.FirstOrDefault(s => s.Id == choosenIdOfItem)));
+            Console.WriteLine("item id to delete meal : " + choosenIdOfItem);
+            var itemHolder = mealHolder.ProductsInMeal.FirstOrDefault(s => s.Id == choosenIdOfItem);
 
+            RecalculateMacrosInMeal(mealHolder, itemHolder, mealHolder.HowManyGramsOfProduct[choosenIdOfItem], '-');
+            RecalculateMacrosInDay(dayHolder, mealHolder, '-');
 
-            mealHolder.TotalCarbs -= Math.Round(itemHolder.Carb * mealHolder.HowManyGramsOfProduct[choosenIdOfItemToAddToMeal] / 100, 2);
-            mealHolder.TotalFat -= Math.Round(itemHolder.Fat * mealHolder.HowManyGramsOfProduct[choosenIdOfItemToAddToMeal] / 100, 2);
-            mealHolder.TotalKcal -= Math.Round(itemHolder.Kcal * mealHolder.HowManyGramsOfProduct[choosenIdOfItemToAddToMeal] / 100, 2);
-            mealHolder.TotalProtein -= Math.Round(itemHolder.Protein * mealHolder.HowManyGramsOfProduct[choosenIdOfItemToAddToMeal] / 100, 2);
-
-            dayHolder.TotalCarbs -= Math.Round(mealHolder.TotalCarbs, 2);
-            dayHolder.TotalFat -= Math.Round(mealHolder.TotalFat, 2);
-            dayHolder.TotalKcal -= Math.Round(mealHolder.TotalKcal, 2);
-            dayHolder.TotalProtein -= Math.Round(mealHolder.TotalProtein, 2);
-
-            Console.WriteLine("Meal result: " + mealHolder.ProductsInMeal.FirstOrDefault(s => s.IdType == choosenIdOfItemToAddToMeal));
-            Console.WriteLine("Deleted grams of product: " + mealHolder.HowManyGramsOfProduct[0]);
             Console.WriteLine("Total Carbs: " + mealHolder.TotalCarbs);
             Console.WriteLine("Total fat: " + mealHolder.TotalFat);
             Console.WriteLine("Total kcal: " + mealHolder.TotalKcal);
             Console.WriteLine("Total protein: " + mealHolder.TotalProtein);
 
-            mealHolder.HowManyGramsOfProduct.Remove(mealHolder.HowManyGramsOfProduct[choosenIdOfItemToAddToMeal]);
+            mealHolder.HowManyGramsOfProduct.Remove(mealHolder.HowManyGramsOfProduct[choosenIdOfItem]);
             mealHolder.ProductsInMeal.Remove(itemHolder);
 
         }
@@ -323,8 +209,6 @@ namespace CountIt
                 Console.WriteLine($"Id: {item.Id}, name of meal: {item.nameOfMeal}");
             }
         }
-
-
         public void AddNewDayMixed()
         {
             int[] days = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30 };
@@ -383,7 +267,69 @@ namespace CountIt
                 }
             }
         }
+
+        public Day GetDay()
+        {
+            int choosenIdOfDay;
+            do
+            {
+                Console.WriteLine("Type ID day You want to choose...");
+                ShowAllDays();
+            }
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfDay) || !Days.Contains(Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay)));
+
+            return Days.FirstOrDefault(s => s.IdOfDay == choosenIdOfDay);
+        }
+        public Meal GetMealFromDay(Day day)
+        {
+            int choosenIdOfMeal;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Please type meal ID from day, where You want to add product...");
+                foreach (var item in day.mealList)
+                {
+                    Console.WriteLine($"ID: {item.Id}, name: {item.nameOfMeal}.");
+                }
+            }
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfMeal) || !day.mealList.Contains(day.mealList.FirstOrDefault(s => s.Id == day.IdOfDay)));
+            return day.mealList.FirstOrDefault(s => s.Id == day.IdOfDay);
+        }
+        private void RecalculateMacrosInMeal(Meal meal, Item item, double grams, char sign)
+        {
+            if (sign == '+')
+            {
+                meal.TotalCarbs += Math.Round(item.Carb * grams / 100, 2);
+                meal.TotalFat += Math.Round(item.Fat * grams / 100, 2);
+                meal.TotalKcal += Math.Round(item.Kcal * grams / 100, 2);
+                meal.TotalProtein += Math.Round(item.Protein * grams / 100, 2);
+            }
+            else
+            {
+                meal.TotalCarbs -= Math.Round(item.Carb * grams / 100, 2);
+                meal.TotalFat -= Math.Round(item.Fat * grams / 100, 2);
+                meal.TotalKcal -= Math.Round(item.Kcal * grams / 100, 2);
+                meal.TotalProtein -= Math.Round(item.Protein * grams / 100, 2);
+            }
+
+        } 
+        private void RecalculateMacrosInDay(Day day, Meal meal, char sign)
+        {
+            if (sign == '+')
+            {
+                day.TotalCarbs += Math.Round(meal.TotalCarbs, 2);
+                day.TotalFat += Math.Round(meal.TotalFat, 2);
+                day.TotalKcal += Math.Round(meal.TotalKcal, 2);
+                day.TotalProtein += Math.Round(meal.TotalProtein, 2);
+            }
+            else
+            {
+                day.TotalCarbs -= Math.Round(meal.TotalCarbs, 2);
+                day.TotalFat -= Math.Round(meal.TotalFat, 2);
+                day.TotalKcal -= Math.Round(meal.TotalKcal, 2);
+                day.TotalProtein -= Math.Round(meal.TotalProtein, 2);
+            }
+
+        }
     }
 }
-//mealHolder.HowManyGramsOfProduct.Remove(mealHolder.HowManyGramsOfProduct[choosenIdOfItemToAddToMeal]);
-//mealHolder.ProductsInMeal.Remove(itemHolder);
