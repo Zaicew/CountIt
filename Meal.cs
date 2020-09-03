@@ -13,8 +13,8 @@ namespace CountIt
         public double TotalFat { get; set; }
         public double TotalProtein { get; set; }
         public double TotalCarbs { get; set; }
-        public List<double> HowManyGramsOfProduct { get; set; }
-        public List<Item> ProductsInMeal { get; set; }
+        public double TotalGrams { get; set; }
+        public List<ItemInMeal> ProductsInMeal { get; set; }
         public Meal()
         {
             this.Id = idStatic++;
@@ -23,8 +23,8 @@ namespace CountIt
             this.TotalProtein = 0;
             this.TotalCarbs = 0;
             this.nameOfMeal = "unsignedMealName";
-            this.ProductsInMeal = new List<Item>();
-            this.HowManyGramsOfProduct = new List<double>();
+            this.ProductsInMeal = new List<ItemInMeal>();
+            this.TotalGrams = 0;
         }        
         public Meal(string name)
         {
@@ -34,8 +34,8 @@ namespace CountIt
             this.TotalProtein = 0;
             this.TotalCarbs = 0;
             this.nameOfMeal = name;
-            this.ProductsInMeal = new List<Item>();
-            this.HowManyGramsOfProduct = new List<double>();
-        }
+            this.ProductsInMeal = new List<ItemInMeal>();
+            this.TotalGrams = 0;
+        }        
     }
 }

@@ -14,6 +14,7 @@ namespace CountIt
         public double TotalFat { get; set; }
         public double TotalProtein { get; set; }
         public double TotalCarbs { get; set; }
+        public double TotalWeightInGrams { get; set; }
 
         public Day()
         {
@@ -24,6 +25,7 @@ namespace CountIt
             this.TotalKcal = 0;
             this.TotalProtein = 0;
             this.mealList = new List<Meal>();
+            this.TotalWeightInGrams = 0;
         }
         public Day(DateTime datetime)
         {
@@ -34,6 +36,7 @@ namespace CountIt
             this.TotalKcal = 0;
             this.TotalProtein = 0;
             this.mealList = new List<Meal>();
+            this.TotalWeightInGrams = 0;
         }
     }
 }

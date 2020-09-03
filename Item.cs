@@ -26,7 +26,7 @@ namespace CountIt
         }
 
         
-        public Item(string name, double kcal, double fat, double protein, double carb, int categoryId = null)
+        public Item(string name, double kcal, double fat, double protein, double carb, int CategoryId)
         {
             this.Id = id++;
             this.Name = name;
@@ -34,8 +34,15 @@ namespace CountIt
             this.Fat = fat;
             this.Protein = protein;
             this.Carb = carb;
-            this.CategoryId = categoryId;
         }
-
+        public Item(Item item)
+        {
+            this.Id = item.Id;
+            this.Name = item.Name;
+            this.Kcal = item.Kcal;
+            this.Fat = item.Fat;
+            this.Protein = item.Protein;
+            this.Carb = item.Carb;
+        }
     }
 }

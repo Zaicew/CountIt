@@ -9,7 +9,7 @@ namespace CountIt
 {
     class DayService
     {
-        public List<Meal> MealsListInDay { get; set; }
+        public List<MealInDay> MealsListInDay { get; set; }
         public List<Day> Days { get; set; }
 
         public DayService()
@@ -96,13 +96,15 @@ namespace CountIt
 
             Console.WriteLine("how many grams: " + howManyGrmasOfProduct);
 
-            mealHolder.ProductsInMeal.Add(itemHolder);
-            mealHolder.HowManyGramsOfProduct.Add(howManyGrmasOfProduct);
+            var itemInMealHolder = new ItemInMeal(itemHolder, howManyGrmasOfProduct);
 
-            RecalculateMacrosInMeal(mealHolder, itemHolder, howManyGrmasOfProduct, '+');
-            RecalculateMacrosInDay(dayHolder, mealHolder, '+');
+            mealHolder.ProductsInMeal.Add(itemInMealHolder);
 
-            Console.WriteLine("Added grams of product: " + mealHolder.HowManyGramsOfProduct[0]);
+            RecalculateMacrosInMeal(mealHolder);
+            RecalculateMacrosInDay(dayHolder);
+
+            Console.WriteLine("Added grams of product: " + itemInMealHolder.Weight);
+            //Console.WriteLine("Added grams of product: " + mealHolder);
             Console.WriteLine("Total Carbs: " + mealHolder.TotalCarbs);
             Console.WriteLine("Total fat: " + mealHolder.TotalFat);
             Console.WriteLine("Total kcal: " + mealHolder.TotalKcal);
@@ -163,19 +165,17 @@ namespace CountIt
             }
             while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || !mealHolder.ProductsInMeal.Contains(mealHolder.ProductsInMeal.FirstOrDefault(s => s.Id == choosenIdOfItem)));
             Console.WriteLine("item id to delete meal : " + choosenIdOfItem);
-            var itemHolder = mealHolder.ProductsInMeal.FirstOrDefault(s => s.Id == choosenIdOfItem);
+            var itemInMealHolder = mealHolder.ProductsInMeal.FirstOrDefault(s => s.Id == choosenIdOfItem);
 
-            RecalculateMacrosInMeal(mealHolder, itemHolder, mealHolder.HowManyGramsOfProduct[choosenIdOfItem], '-');
-            RecalculateMacrosInDay(dayHolder, mealHolder, '-');
+            mealHolder.ProductsInMeal.Remove(itemInMealHolder);
+
+            RecalculateMacrosInMeal(mealHolder);
+            RecalculateMacrosInDay(dayHolder);
 
             Console.WriteLine("Total Carbs: " + mealHolder.TotalCarbs);
             Console.WriteLine("Total fat: " + mealHolder.TotalFat);
             Console.WriteLine("Total kcal: " + mealHolder.TotalKcal);
             Console.WriteLine("Total protein: " + mealHolder.TotalProtein);
-
-            mealHolder.HowManyGramsOfProduct.Remove(mealHolder.HowManyGramsOfProduct[choosenIdOfItem]);
-            mealHolder.ProductsInMeal.Remove(itemHolder);
-
         }
 
         public void ShowAllDays()
@@ -247,12 +247,11 @@ namespace CountIt
                 for (int i = 0; i < item.mealList.Count; i++)
                 {
                     var mealHolder = item.mealList[i];
-                    var itemHolder = itemService.Items[rnd.Next(1, itemService.Items.Count)];
+                    var itemHolder = new ItemInMeal(itemService.Items[rnd.Next(1, itemService.Items.Count)], grams[rnd.Next(1,8)]);
 
                     mealHolder.ProductsInMeal.Add(itemHolder);
                     howManyGramsOfProduct = grams[rnd.Next(1, 7)];
 
-                    mealHolder.HowManyGramsOfProduct.Add(howManyGramsOfProduct);
 
                     mealHolder.TotalCarbs += Math.Round(itemHolder.Carb * howManyGramsOfProduct / 100, 2);
                     mealHolder.TotalFat += Math.Round(itemHolder.Fat * howManyGramsOfProduct / 100, 2);
@@ -292,44 +291,40 @@ namespace CountIt
                     Console.WriteLine($"ID: {item.Id}, name: {item.nameOfMeal}.");
                 }
             }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfMeal) || !day.mealList.Contains(day.mealList.FirstOrDefault(s => s.Id == day.IdOfDay)));
-            return day.mealList.FirstOrDefault(s => s.Id == day.IdOfDay);
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfMeal) || !day.mealList.Contains(day.mealList.FirstOrDefault(s => s.Id == choosenIdOfMeal)));
+            return day.mealList.FirstOrDefault(s => s.Id == choosenIdOfMeal);
         }
-        private void RecalculateMacrosInMeal(Meal meal, Item item, double grams, char sign)
+        private void RecalculateMacrosInMeal(Meal meal)
         {
-            if (sign == '+')
+            meal.TotalCarbs = 0;
+            meal.TotalFat = 0;
+            meal.TotalGrams = 0;
+            meal.TotalKcal = 0;
+            meal.TotalProtein = 0;
+            foreach (var element in meal.ProductsInMeal)
             {
-                meal.TotalCarbs += Math.Round(item.Carb * grams / 100, 2);
-                meal.TotalFat += Math.Round(item.Fat * grams / 100, 2);
-                meal.TotalKcal += Math.Round(item.Kcal * grams / 100, 2);
-                meal.TotalProtein += Math.Round(item.Protein * grams / 100, 2);
+                meal.TotalCarbs += Math.Round(element.Carb * element.Weight / 100, 2);
+                meal.TotalFat += Math.Round(element.Fat * element.Weight / 100, 2);
+                meal.TotalGrams += Math.Round(element.Weight, 2);
+                meal.TotalKcal += Math.Round(element.Kcal * element.Weight / 100, 2);
+                meal.TotalProtein += Math.Round(element.Protein * element.Weight / 100, 2);
             }
-            else
-            {
-                meal.TotalCarbs -= Math.Round(item.Carb * grams / 100, 2);
-                meal.TotalFat -= Math.Round(item.Fat * grams / 100, 2);
-                meal.TotalKcal -= Math.Round(item.Kcal * grams / 100, 2);
-                meal.TotalProtein -= Math.Round(item.Protein * grams / 100, 2);
-            }
-
         } 
-        private void RecalculateMacrosInDay(Day day, Meal meal, char sign)
+        private void RecalculateMacrosInDay(Day day)
         {
-            if (sign == '+')
-            {
-                day.TotalCarbs += Math.Round(meal.TotalCarbs, 2);
-                day.TotalFat += Math.Round(meal.TotalFat, 2);
-                day.TotalKcal += Math.Round(meal.TotalKcal, 2);
-                day.TotalProtein += Math.Round(meal.TotalProtein, 2);
-            }
-            else
-            {
-                day.TotalCarbs -= Math.Round(meal.TotalCarbs, 2);
-                day.TotalFat -= Math.Round(meal.TotalFat, 2);
-                day.TotalKcal -= Math.Round(meal.TotalKcal, 2);
-                day.TotalProtein -= Math.Round(meal.TotalProtein, 2);
-            }
+            day.TotalCarbs = 0;
+            day.TotalFat = 0;
+            day.TotalKcal = 0;
+            day.TotalProtein = 0;
 
+            foreach (var item in day.mealList)
+            {
+                day.TotalCarbs += item.TotalCarbs;
+                day.TotalFat += item.TotalFat;
+                day.TotalKcal += item.TotalKcal;
+                day.TotalProtein += item.TotalProtein;
+                day.TotalWeightInGrams += item.TotalGrams;
+            }
         }
     }
 }

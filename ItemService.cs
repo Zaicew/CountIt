@@ -74,12 +74,10 @@ namespace CountIt
         }
 
         public void ShowAllProducts()
-        {
-            int i = 0;
+        { 
             foreach (var item in Items)
             {
-                Console.WriteLine($"{item.Id}. Name: {item.Name}, kcal: {item.Kcal}, fat: {item.Fat}, protein: {item.Protein}, carb: {item.Carb}, category ID: {item.Id}.");
-                i++; 
+                Console.WriteLine($"{item.Id}. Name: {item.Name}, kcal: {item.Kcal}, fat: {item.Fat}, protein: {item.Protein}, carb: {item.Carb}, category ID: {item.CategoryId}.");
             }
         }
         public void ShowAllProductsFromChoosenCategory(CategoryService categories)
@@ -111,7 +109,8 @@ namespace CountIt
             Random rnd = new Random();
             for (int i = 0; i < 50; i++)
             {
-                Items.Add(new Item(names[rnd.Next(1, 15)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)]));
+                Items.Add(new Item(names[rnd.Next(1, 15)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], 
+                    categoryService.Categories[rnd.Next(1,categoryService.Categories.Count)].IdOfCategory));
             }
         }
 
@@ -143,7 +142,7 @@ namespace CountIt
                 Console.WriteLine("Type ID of product which You want to choose");
                 ShowAllProducts();
             }
-            while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || Items.Contains(Items.FirstOrDefault(s => s.Id == choosenIdOfItem)));
+            while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || !Items.Contains(Items.FirstOrDefault(s => s.Id == choosenIdOfItem)));
 
             return Items.FirstOrDefault(s => s.Id == choosenIdOfItem);
         }
