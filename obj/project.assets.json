@@ -1,11 +1,49 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "CountIt.App/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "CountIt.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/CountIt.App.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CountIt.App.dll": {}
+        }
+      },
+      "CountIt.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/CountIt.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CountIt.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "CountIt.App/1.0.0": {
+      "type": "project",
+      "path": "../CountIt.App/CountIt.App.csproj",
+      "msbuildProject": "../CountIt.App/CountIt.App.csproj"
+    },
+    "CountIt.Domain/1.0.0": {
+      "type": "project",
+      "path": "../CountIt.Domain/CountIt.Domain.csproj",
+      "msbuildProject": "../CountIt.Domain/CountIt.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "CountIt.App >= 1.0.0",
+      "CountIt.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Zaicew\\.nuget\\packages\\": {},
@@ -36,7 +74,14 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj": {
+              "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj"
+            },
+            "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj": {
+              "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
