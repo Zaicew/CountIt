@@ -1,0 +1,8 @@
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\bin\Debug\netstandard2.0\CountIt.Domain.deps.json
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\bin\Debug\netstandard2.0\CountIt.Domain.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\bin\Debug\netstandard2.0\CountIt.Domain.pdb
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.AssemblyInfoInputs.cache
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.AssemblyInfo.cs
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.pdb
