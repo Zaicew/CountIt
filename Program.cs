@@ -1,7 +1,4 @@
-﻿using CountIt.App.Abstract;
-using CountIt.App.Concrete;
-using CountIt.Domain.Entity;
-using System;
+﻿using System;
 using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
@@ -14,20 +11,17 @@ namespace CountIt
         static void Main(string[] args)
         {
             MenuActionService actionService = new MenuActionService();
+            actionService = Initialize(actionService);
+
             ItemService itemService = new ItemService();
             CategoryService categoryService = new CategoryService();
             MealService mealService = new MealService();
             DayService dayService = new DayService();
 
-
-            //MenuActionService actionService = new MenuActionService();
-            //actionService = Initialize();
-            //ItemService itemService = new ItemService();
-
-
             Console.WriteLine("Welcome to CountItApp!");
 
-            bool exitApp;
+            bool exitApp = false;
+            bool isBackButtonPressed = false;
             do
             {
                 Console.WriteLine("What You want to do:");
@@ -38,7 +32,6 @@ namespace CountIt
                 }
                 exitApp = false;
                 var operation = Console.ReadKey();
-                bool isBackButtonPressed;
                 switch (operation.KeyChar)
                 {
                     case '1':
@@ -49,33 +42,33 @@ namespace CountIt
                             switch (keyInfo.KeyChar)
                             {
                                 case '1':
-                                    categoryService.AddNewCategory();
+                                categoryService.AddNewCategory();
                                     break;
                                 case '2':
-                                    itemService.AddNewItem(categoryService);
+                                itemService.AddNewItem(categoryService);
                                     break;
                                 case '3':
-                                    itemService.SignProductToCategory(categoryService);
+                                itemService.SignProductToCategory(categoryService);
                                     break;
                                 case '4':
-                                    categoryService.DeleteCategory(itemService);
+                                categoryService.DeleteCategory(itemService);
                                     break;
                                 case '5':
-                                    itemService.DeleteProduct(categoryService);
+                                itemService.DeleteProduct(categoryService);
                                     break;
                                 case '6':
-                                    categoryService.WievAllCategories();
-                                    break;
+                                categoryService.WievAllCategories();
+                                break;
                                 case '7':
-                                    itemService.ShowAllProducts();
-                                    break;
+                                itemService.ShowAllProducts();
+                                    break;     
                                 case '8':
-                                    Console.Clear();
-                                    itemService.ShowAllProductsFromChoosenCategory(categoryService);
-                                    break;
+                                Console.Clear();
+                                itemService.ShowAllProductsFromChoosenCategory(categoryService);
+                                    break;     
                                 case '9':
-                                    isBackButtonPressed = true;
-                                    break;
+                                isBackButtonPressed = true;
+                                    break;                                
                                 default:
                                     Console.WriteLine("Please choose right operation!");
                                     break;
@@ -95,7 +88,7 @@ namespace CountIt
                                     dayService.AddNewDay();
                                     break;
                                 case '2':
-                                    dayService.AddNewMeal();
+                                    dayService.AddNewMeal(mealService);
                                     break;
                                 case '3':
                                     dayService.AddProductToMeal(itemService);
@@ -126,7 +119,7 @@ namespace CountIt
                         }
                         while (!isBackButtonPressed);
                         break;
-                    case '3':
+                    case '3': 
                         exitApp = true;
                         break;
                     case '4':
@@ -143,8 +136,39 @@ namespace CountIt
                 }
             }
             while (!exitApp);
+            
 
+        }
 
+        private static MenuActionService Initialize(MenuActionService actionService)
+        {
+            actionService.AddNewAction(1, "Management of products", "MainMenu");
+            actionService.AddNewAction(2, "Your calculator", "MainMenu");
+            actionService.AddNewAction(3, "Close app", "MainMenu");
+            actionService.AddNewAction(4, "Set some data", "MainMenu");
+
+            actionService.AddNewAction(1, "Add category", "ManagementApplication");
+            actionService.AddNewAction(2, "Add product", "ManagementApplication");
+            actionService.AddNewAction(3, "Sign product to category", "ManagementApplication");
+            actionService.AddNewAction(4, "Delete category", "ManagementApplication");
+            actionService.AddNewAction(5, "Delete product", "ManagementApplication");
+            actionService.AddNewAction(6, "Show all categories", "ManagementApplication");
+            actionService.AddNewAction(7, "Show all products from all categories", "ManagementApplication");
+            actionService.AddNewAction(8, "Show all products from choosen category", "ManagementApplication");
+            actionService.AddNewAction(9, "Back", "ManagementApplication");
+
+            actionService.AddNewAction(1, "Add meal day", "UserCalculator");
+            actionService.AddNewAction(2, "Add meal", "UserCalculator");
+            actionService.AddNewAction(3, "Add product to meal", "UserCalculator");
+            actionService.AddNewAction(4, "Delete product from meal", "UserCalculator");
+            actionService.AddNewAction(5, "Delete day", "UserCalculator");
+            actionService.AddNewAction(6, "Delete meal", "UserCalculator");
+            actionService.AddNewAction(7, "Show day calories", "UserCalculator");
+            actionService.AddNewAction(8, "Show meal calories", "UserCalculator");
+            actionService.AddNewAction(9, "Show all day macros", "UserCalculator");
+            actionService.AddNewAction(0, "Back", "UserCalculator");
+
+            return actionService;
         }
     }
 }

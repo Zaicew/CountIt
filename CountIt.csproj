@@ -5,9 +5,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CountIt.App\CountIt.App.csproj" />
-    <ProjectReference Include="..\CountIt.Domain\CountIt.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

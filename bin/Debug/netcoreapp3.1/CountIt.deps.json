@@ -7,41 +7,14 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {
       "CountIt/1.0.0": {
-        "dependencies": {
-          "CountIt.App": "1.0.0",
-          "CountIt.Domain": "1.0.0"
-        },
         "runtime": {
           "CountIt.dll": {}
-        }
-      },
-      "CountIt.App/1.0.0": {
-        "dependencies": {
-          "CountIt.Domain": "1.0.0"
-        },
-        "runtime": {
-          "CountIt.App.dll": {}
-        }
-      },
-      "CountIt.Domain/1.0.0": {
-        "runtime": {
-          "CountIt.Domain.dll": {}
         }
       }
     }
   },
   "libraries": {
     "CountIt/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "CountIt.App/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "CountIt.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
