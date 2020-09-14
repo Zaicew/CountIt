@@ -23,10 +23,6 @@ namespace CountIt
             CategoryManager categoryManager = new CategoryManager(categoryService, itemService);
             MealManager mealManager = new MealManager(mealService);
             DayManager dayManager = new DayManager(actionService, dayService, mealService);
-            //MenuActionService actionService = new MenuActionService();
-            //actionService = Initialize();
-            //ItemService itemService = new ItemService();
-
 
             Console.WriteLine("Welcome to CountItApp!");
 
@@ -55,7 +51,7 @@ namespace CountIt
                                     categoryManager.AddNewCategory();
                                     break;
                                 case '2':
-                                    var newId = itemManager.AddNewItem(categoryManager);
+                                    itemManager.AddNewItem(categoryManager);
                                     break;
                                 case '3':
                                     itemManager.SignProductToCategory(categoryManager);
@@ -120,7 +116,10 @@ namespace CountIt
                                     break;
                                 case '9':
                                     dayManager.ShowAllDays();
-                                    //isBackButtonPressed = true;
+                                    break;
+                                case '0':
+                                    dayManager.ShowAllDays();
+                                    isBackButtonPressed = true;
                                     break;
                                 default:
                                     Console.WriteLine("Please choose right operation!");
