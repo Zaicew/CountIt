@@ -1,4 +1,5 @@
-﻿using CountIt.App.Concrete;
+﻿using CountIt.App.Abstract;
+using CountIt.App.Concrete;
 using CountIt.Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,10 @@ namespace CountIt.App.Managers
 {
     public class CategoryManager
     {
-        private ItemService _itemService;
-        private CategoryService _categoryService;
+        //private ItemService _itemService;
+        //private CategoryService _categoryService;
+        private IService<Item> _itemService;
+        private IService<Category> _categoryService;
 
         public CategoryManager(CategoryService categoryService, ItemService itemService)
         {

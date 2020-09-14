@@ -1,4 +1,5 @@
-﻿using CountIt.App.Concrete;
+﻿using CountIt.App.Abstract;
+using CountIt.App.Concrete;
 using CountIt.Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,12 @@ namespace CountIt.App.Managers
 {
     public class DayManager
     {
-        private MenuActionService _menuActionService;
-        private DayService _dayService;
-        private MealService _mealService;
+        //private MenuActionService _menuActionService;
+        //private DayService _dayService;
+        //private MealService _mealService;
+        private readonly MenuActionService _menuActionService;
+        private IService<Day> _dayService;
+        private IService<Meal> _mealService;
 
         public DayManager(MenuActionService menuActionService, DayService dayService, MealService mealService)
         {

@@ -11,5 +11,6 @@ namespace CountIt.App.Abstract
         int AddItem(T item);
         int UpdateItem(T item);
         void RemoveItem(T item);
+        int GetLastId();
     }
 }

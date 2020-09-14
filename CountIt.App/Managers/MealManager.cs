@@ -1,4 +1,5 @@
-﻿using CountIt.App.Concrete;
+﻿using CountIt.App.Abstract;
+using CountIt.App.Concrete;
 using CountIt.Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ namespace CountIt.App.Managers
 {
     public class MealManager
     {
-        private MealService _mealservice;
+        //private MealService _mealservice;
+        private IService<Meal> _mealservice;
         public MealManager(MealService mealService)
         {
             _mealservice = mealService;
