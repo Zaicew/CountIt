@@ -7,7 +7,6 @@ namespace CountIt.Domain.Entity
 {
     public class Item : BaseEntity
     {
-        private static int id;
         public string Name { get; set; }
         public double Kcal{ get; set; }
         public double Fat{ get; set; }
@@ -15,11 +14,9 @@ namespace CountIt.Domain.Entity
         public double Carb{ get; set; }
         public int CategoryId { get; set; }
 
-        public Item()
+        public Item(int id)
+            :base(id)
         {
-            if (id == 0)
-                id++;
-            this.Id = id++;
             this.Name = "emptyName";
             this.Kcal = 0.0;
             this.Fat = 0.0;
@@ -28,11 +25,9 @@ namespace CountIt.Domain.Entity
         }
 
         
-        public Item(string name, double kcal, double fat, double protein, double carb, int categoryId)
+        public Item(int id, string name, double kcal, double fat, double protein, double carb, int categoryId)
+            :base(id)
         {
-            if (id == 0)
-                id++;
-            this.Id = id++;
             this.Name = name;
             this.Kcal = kcal;
             this.Fat = fat;
@@ -41,10 +36,8 @@ namespace CountIt.Domain.Entity
             this.CategoryId = categoryId;
         }
         public Item(Item item)
+            :base(item.Id)
         {
-            if (id == 0)
-                id++;
-            this.Id = item.Id;
             this.Name = item.Name;
             this.Kcal = item.Kcal;
             this.Fat = item.Fat;

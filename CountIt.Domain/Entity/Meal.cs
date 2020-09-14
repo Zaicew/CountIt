@@ -7,7 +7,6 @@ namespace CountIt.Domain.Entity
 {
     public class Meal : BaseEntity
     {
-        public static int id;
         public string NameOfMeal { get; set; }
         public double TotalKcal { get; set; }
         public double TotalFat { get; set; }
@@ -17,25 +16,25 @@ namespace CountIt.Domain.Entity
         public List<ItemInMeal> ProductsInMeal { get; set; }
         public Meal()
         {
-            this.Id = id++;
-            this.TotalKcal = 0;
-            this.TotalFat = 0;
-            this.TotalProtein = 0;
-            this.TotalCarbs = 0;
-            this.NameOfMeal = "unsignedMealName";
-            this.ProductsInMeal = new List<ItemInMeal>();
-            this.TotalGrams = 0;
+            Id = 0;
+            TotalKcal = 0;
+            TotalFat = 0;
+            TotalProtein = 0;
+            TotalCarbs = 0;
+            NameOfMeal = "unsignedMealName";
+            ProductsInMeal = new List<ItemInMeal>();
+            TotalGrams = 0;
         }        
-        public Meal(string name)
+        public Meal(string name, int id)
+           : base(id)
         {
-            this.Id = id++;
-            this.TotalKcal = 0;
-            this.TotalFat = 0;
-            this.TotalProtein = 0;
-            this.TotalCarbs = 0;
-            this.NameOfMeal = name;
-            this.ProductsInMeal = new List<ItemInMeal>();
-            this.TotalGrams = 0;
+            TotalKcal = 0;
+            TotalFat = 0;
+            TotalProtein = 0;
+            TotalCarbs = 0;
+            NameOfMeal = name;
+            ProductsInMeal = new List<ItemInMeal>();
+            TotalGrams = 0;
         }        
     }
 }

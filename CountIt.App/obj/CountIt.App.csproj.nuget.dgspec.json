@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\CountIt.App.csproj": {}
+    "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\CountIt.App.csproj": {
+    "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\CountIt.App.csproj",
+        "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj",
         "projectName": "CountIt.App",
-        "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\CountIt.App.csproj",
+        "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj",
         "packagesPath": "C:\\Users\\Zaicew\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\obj\\",
+        "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -30,8 +30,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj": {
-                "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj"
+              "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj": {
+                "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj"
               }
             }
           }
@@ -66,14 +66,14 @@
         }
       }
     },
-    "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj": {
+    "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj",
         "projectName": "CountIt.Domain",
-        "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj",
+        "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj",
         "packagesPath": "C:\\Users\\Zaicew\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\obj\\",
+        "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

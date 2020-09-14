@@ -6,14 +6,14 @@ namespace CountIt.Domain.Entity
 {
     public class MealInDay : Meal
     {
-        private double weight;
+        public double Weight { get; set; }
         public MealInDay() : base()
         {
-            this.weight = 0;
+            Weight = 0;
         }
-        public MealInDay(double weight, string name) : base(name)
+        public MealInDay(double weight, string name, int id) : base(name, id + 1)
         {
-            this.weight = weight;
+            Weight = weight;
         } 
 
     }

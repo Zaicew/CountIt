@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EEYD5596WfsYfOE5nNzlDxkdETik3xnOft/6tEARQWhpR80sVvtUoq/y5vwKfP2+TSUe4S6J4K1uH3ZTEKrPsA==",
+  "dgSpecHash": "3AtwLdCzht45Lfj9MTb+bN7saOwLn4pAVP7NCKu0moqpk7nM5hLjCccfbIpq/ensB9LpIkxz9njQ+YOH/8kq1w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj",
+  "projectFilePath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"

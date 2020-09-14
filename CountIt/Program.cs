@@ -1,5 +1,6 @@
 ﻿using CountIt.App.Abstract;
 using CountIt.App.Concrete;
+using CountIt.App.Managers;
 using CountIt.Domain.Entity;
 using System;
 using System.ComponentModel.Design;
@@ -18,8 +19,10 @@ namespace CountIt
             CategoryService categoryService = new CategoryService();
             MealService mealService = new MealService();
             DayService dayService = new DayService();
-
-
+            ItemManager itemManager = new ItemManager(categoryService, itemService);
+            CategoryManager categoryManager = new CategoryManager(categoryService, itemService);
+            MealManager mealManager = new MealManager(mealService);
+            DayManager dayManager = new DayManager(actionService, dayService, mealService);
             //MenuActionService actionService = new MenuActionService();
             //actionService = Initialize();
             //ItemService itemService = new ItemService();
@@ -43,35 +46,35 @@ namespace CountIt
                 {
                     case '1':
                         do
-                        {
-                            var keyInfo = categoryService.CategoryServiceView(actionService);
+                        {                            
+                            var keyInfo = categoryManager.CategoryServiceView(actionService);
                             isBackButtonPressed = false;
                             switch (keyInfo.KeyChar)
                             {
                                 case '1':
-                                    categoryService.AddNewCategory();
+                                    categoryManager.AddNewCategory();
                                     break;
                                 case '2':
-                                    itemService.AddNewItem(categoryService);
+                                    var newId = itemManager.AddNewItem(categoryManager);
                                     break;
                                 case '3':
-                                    itemService.SignProductToCategory(categoryService);
+                                    itemManager.SignProductToCategory(categoryManager);
                                     break;
                                 case '4':
-                                    categoryService.DeleteCategory(itemService);
+                                    categoryManager.DeleteCategory(itemManager);
                                     break;
                                 case '5':
-                                    itemService.DeleteProduct(categoryService);
+                                    itemManager.DeleteProduct();
                                     break;
                                 case '6':
-                                    categoryService.WievAllCategories();
+                                    categoryManager.WievAllCategories();
                                     break;
                                 case '7':
-                                    itemService.ShowAllProducts();
+                                    itemManager.ShowAllProducts();
                                     break;
                                 case '8':
                                     Console.Clear();
-                                    itemService.ShowAllProductsFromChoosenCategory(categoryService);
+                                    itemManager.ShowAllProductsFromChoosenCategory(categoryManager);
                                     break;
                                 case '9':
                                     isBackButtonPressed = true;
@@ -87,36 +90,36 @@ namespace CountIt
                     case '2':
                         do
                         {
-                            var keyInfo = dayService.AddNewDayView(actionService);
+                            var keyInfo = dayManager.AddNewDayView();
                             isBackButtonPressed = false;
                             switch (keyInfo.KeyChar)
                             {
                                 case '1':
-                                    dayService.AddNewDay();
+                                    dayManager.AddNewDay();
                                     break;
                                 case '2':
-                                    dayService.AddNewMeal();
+                                    dayManager.AddNewMeal();
                                     break;
                                 case '3':
-                                    dayService.AddProductToMeal(itemService);
+                                    dayManager.AddProductToMeal(itemManager);
                                     break;
                                 case '4':
-                                    dayService.RemoveProductFromMeal(mealService);
+                                    dayManager.RemoveProductFromMeal(mealManager);
                                     break;
                                 case '5':
-                                    dayService.DeleteDay();
+                                    dayManager.DeleteDay();
                                     break;
                                 case '6':
-                                    dayService.DeleteMeal();
+                                    dayManager.DeleteMeal();
                                     break;
                                 case '7':
-                                    dayService.ShowDayMacro();
+                                    dayManager.ShowDayMacro();
                                     break;
                                 case '8':
-                                    dayService.ShowMealMacro();
+                                    dayManager.ShowMealMacro();
                                     break;
                                 case '9':
-                                    dayService.ShowAllDays();
+                                    dayManager.ShowAllDays();
                                     //isBackButtonPressed = true;
                                     break;
                                 default:
@@ -130,12 +133,12 @@ namespace CountIt
                         exitApp = true;
                         break;
                     case '4':
-                        categoryService.AddNewCategoryMixed();
-                        itemService.AddNewItemMixed(categoryService);
-                        itemService.SignProductToCategoryMixed(categoryService, itemService);
-                        dayService.AddNewDayMixed();
-                        dayService.AddNewMealMixed(mealService, itemService);
-                        dayService.AddProductsToMealsMixed(mealService, itemService);
+                        categoryManager.AddNewCategoryMixed();
+                        itemManager.AddNewItemMixed(categoryService, itemService);
+                        itemManager.SignProductToCategoryMixed(categoryService, itemService);
+                        dayManager.AddNewDayMixed();
+                        dayManager.AddNewMealMixed(mealManager, itemManager, dayService);
+                        dayManager.AddProductsToMealsMixed(mealManager, itemManager, itemService);
                         break;
                     default:
                         Console.WriteLine("Please choose right operation!");

@@ -52,11 +52,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt\\CountIt.csproj",
+      "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt\\CountIt.csproj",
       "projectName": "CountIt",
-      "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt\\CountIt.csproj",
+      "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt\\CountIt.csproj",
       "packagesPath": "C:\\Users\\Zaicew\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt\\obj\\",
+      "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -75,11 +75,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\CountIt.App.csproj": {
-              "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.App\\CountIt.App.csproj"
+            "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj": {
+              "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.App\\CountIt.App.csproj"
             },
-            "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj": {
-              "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj"
+            "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj": {
+              "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj"
             }
           }
         }

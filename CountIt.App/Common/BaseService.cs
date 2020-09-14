@@ -9,12 +9,11 @@ namespace CountIt.App.Common
 {
     public class BaseService<T> : IService<T> where T : BaseEntity
     {
-        public List<T> items { get; set; }
+        public List<T> Items { get; set; }
         public BaseService()
         {
             Items = new List<T>();
         }
-        public List<T> Items { get; set; }
 
         public int AddItem(T item)
         {
@@ -40,6 +39,20 @@ namespace CountIt.App.Common
                 entity = item;
             }
             return entity.Id;
+        }
+
+        public int GetLastId()
+        {
+            int lastId;
+            if (Items.Any())
+            {
+                lastId = Items.OrderBy(s => s.Id).LastOrDefault().Id;
+            }
+            else
+            {
+                lastId = 1;
+            }
+            return lastId;
         }
     }
 }

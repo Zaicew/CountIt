@@ -185,11 +185,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj",
       "projectName": "CountIt.Domain",
-      "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\CountIt.Domain.csproj",
+      "projectPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\CountIt.Domain.csproj",
       "packagesPath": "C:\\Users\\Zaicew\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountItMyApp\\CountIt.Domain\\obj\\",
+      "outputPath": "C:\\Users\\Zaicew\\source\\repos\\CountIt\\CountIt.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

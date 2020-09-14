@@ -6,3 +6,4 @@ C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\Cou
 C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.csproj.CoreCompileInputs.cache
 C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.dll
 C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.pdb
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Domain\obj\Debug\netstandard2.0\CountIt.Domain.csprojAssemblyReference.cache

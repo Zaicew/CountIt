@@ -7,9 +7,8 @@ namespace CountIt.Domain.Entity
 {
     public class Day : BaseEntity
     {
-        private static int id;
-        public DateTime dateTime { get; set; }
-        public List<Meal> mealList { get; set; }
+        public DateTime DateTime { get; set; }
+        public List<Meal> MealList { get; set; }
         public double TotalKcal { get; set; }
         public double TotalFat { get; set; }
         public double TotalProtein { get; set; }
@@ -17,26 +16,27 @@ namespace CountIt.Domain.Entity
         public double TotalWeightInGrams { get; set; }
 
         public Day()
+            : base()
         {
-            this.Id = id++;
-            this.dateTime = DateTime.Now;
-            this.TotalCarbs = 0;
-            this.TotalFat = 0;
-            this.TotalKcal = 0;
-            this.TotalProtein = 0;
-            this.mealList = new List<Meal>();
-            this.TotalWeightInGrams = 0;
+            Id = 0;
+            DateTime = DateTime.Now;
+            TotalCarbs = 0;
+            TotalFat = 0;
+            TotalKcal = 0;
+            TotalProtein = 0;
+            MealList = new List<Meal>();
+            TotalWeightInGrams = 0;
         }
-        public Day(DateTime datetime)
+        public Day(DateTime datetime, int id)
+            : base(id)
         {
-            this.Id = id++;
-            this.dateTime = datetime;
-            this.TotalCarbs = 0;
-            this.TotalFat = 0;
-            this.TotalKcal = 0;
-            this.TotalProtein = 0;
-            this.mealList = new List<Meal>();
-            this.TotalWeightInGrams = 0;
+            DateTime = datetime;
+            TotalCarbs = 0;
+            TotalFat = 0;
+            TotalKcal = 0;
+            TotalProtein = 0;
+            MealList = new List<Meal>();
+            TotalWeightInGrams = 0;
         }
     }
 }
