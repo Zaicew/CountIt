@@ -9,7 +9,6 @@ namespace CountIt.App.Managers
 {
     public class MealManager
     {
-        //private MealService _mealservice;
         private IService<Meal> _mealservice;
         public MealManager(MealService mealService)
         {

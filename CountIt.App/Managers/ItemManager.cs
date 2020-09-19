@@ -14,7 +14,7 @@ namespace CountIt.App.Managers
         //private CategoryService _categoryService; 
         private IService<Item> _itemService;
         private IService<Category> _categoryService;
-        public ItemManager(CategoryService categoryService, ItemService itemService)
+        public ItemManager(CategoryService categoryService, IService<Item> itemService)
         {
             _categoryService = categoryService;
             _itemService = itemService;
@@ -162,6 +162,12 @@ namespace CountIt.App.Managers
             while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || !_itemService.Items.Contains(_itemService.Items.FirstOrDefault(s => s.Id == choosenIdOfItem)));
 
             return _itemService.Items.FirstOrDefault(s => s.Id == choosenIdOfItem);
+        }
+
+        public Item GetItemById(int id)
+        {
+            var entity = _itemService.GetItemById(id);
+            return entity;
         }
     }
 }

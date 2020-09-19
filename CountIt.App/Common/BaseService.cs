@@ -14,7 +14,11 @@ namespace CountIt.App.Common
         {
             Items = new List<T>();
         }
-
+        public T GetItemById(int id)
+        {
+            var entity = Items.FirstOrDefault(s => s.Id == id);
+            return entity;
+        }
         public int AddItem(T item)
         {
             Items.Add(item);

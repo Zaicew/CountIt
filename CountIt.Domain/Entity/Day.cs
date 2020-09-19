@@ -15,6 +15,7 @@ namespace CountIt.Domain.Entity
         public double TotalCarbs { get; set; }
         public double TotalWeightInGrams { get; set; }
 
+
         public Day()
             : base()
         {

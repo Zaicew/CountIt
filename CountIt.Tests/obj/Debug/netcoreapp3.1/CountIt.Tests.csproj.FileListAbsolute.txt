@@ -93,3 +93,14 @@ C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\obj\Debug\netcoreapp3.1\Count
 C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\obj\Debug\netcoreapp3.1\CountIt.Tests.dll
 C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\obj\Debug\netcoreapp3.1\CountIt.Tests.pdb
 C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\obj\Debug\netcoreapp3.1\CountIt.Tests.genruntimeconfig.cache
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\Castle.Core.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\Moq.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\FluentAssertions.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\CountIt.App.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\CountIt.Domain.dll
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\CountIt.App.pdb
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\bin\Debug\netcoreapp3.1\CountIt.Domain.pdb
+C:\Users\Zaicew\source\repos\CountIt\CountIt.Tests\obj\Debug\netcoreapp3.1\CountIt.Tests.csproj.CoreCompileInputs.cache

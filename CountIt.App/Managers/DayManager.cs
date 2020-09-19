@@ -17,11 +17,15 @@ namespace CountIt.App.Managers
         private IService<Day> _dayService;
         private IService<Meal> _mealService;
 
-        public DayManager(MenuActionService menuActionService, DayService dayService, MealService mealService)
+        public DayManager(MenuActionService menuActionService, IService<Day> dayService, IService<Meal> mealService)
         {
             _menuActionService = menuActionService;
             _dayService = dayService;
             _mealService = mealService;
+        }
+        public DayManager(IService<Day> dayService)
+        {
+            _dayService = dayService;
         }
         public ConsoleKeyInfo AddNewDayView()
         {
@@ -173,13 +177,18 @@ namespace CountIt.App.Managers
             }
         }
 
-        private bool IsDayExistinginDatabase(DateTime dateTime)
+        public bool IsDayExistinginDatabase(DateTime dateTime)
         {
-            foreach (var item in _dayService.Items)
-            {
-                if (item.DateTime == dateTime)
-                    Console.WriteLine($"This day existing in Your app: {dateTime.Date.ToShortDateString()}");
+            if (_dayService.Items.Count < 1)
                 return false;
+            else
+            {
+                foreach (var item in _dayService.Items)
+                {
+                    if (item.DateTime == dateTime)
+                        Console.WriteLine($"This day existing in Your app: {dateTime.Date.ToShortDateString()}");
+                    return false;
+                }
             }
             return true;
         }

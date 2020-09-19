@@ -10,6 +10,14 @@ namespace CountIt.App.Concrete
 {
     public class CategoryService : BaseService<Category>
     {
-        
+        public bool IsCategoryNameExist(string input)
+        {
+            foreach (var item in Items)
+            {
+                if (item.Name == input)
+                    return false;
+            }
+            return true;
+        }
     }
 }

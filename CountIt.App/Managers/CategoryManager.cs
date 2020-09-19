@@ -11,11 +11,12 @@ namespace CountIt.App.Managers
     public class CategoryManager
     {
         //private ItemService _itemService;
-        //private CategoryService _categoryService;
+        private CategoryService _categoryService;
         private IService<Item> _itemService;
-        private IService<Category> _categoryService;
+        //private IService<Category> _categoryService; >> zapytac o to kajetana!
+        //private CategoryService categoryService;
 
-        public CategoryManager(CategoryService categoryService, ItemService itemService)
+        public CategoryManager(CategoryService categoryService, IService<Item> itemService)
         {
             _categoryService = categoryService;
             _categoryService.Items.Add(new Category("unsignedCategory", 0));
@@ -39,7 +40,7 @@ namespace CountIt.App.Managers
             Console.WriteLine("Please type name of category...");
             string nameOfCategory;
             nameOfCategory = Console.ReadLine();
-            if (IsCategoryNameExist(nameOfCategory) == false)
+            if (_categoryService.IsCategoryNameExist(nameOfCategory) == false)
             {
                 Console.WriteLine($"Aplication actually contains that name of category! {nameOfCategory}");
                 var existedCategory = _categoryService.Items.FirstOrDefault(s => s.Name == nameOfCategory);
@@ -63,15 +64,15 @@ namespace CountIt.App.Managers
             }
         }
 
-        public bool IsCategoryNameExist(string input)
-        {
-            foreach (var item in _categoryService.Items)
-            {
-                if (item.Name == input)
-                    return false;
-            }
-            return true;
-        }
+        //public bool IsCategoryNameExist(string input)
+        //{
+        //    foreach (var item in _categoryService.Items)
+        //    {
+        //        if (item.Name == input)
+        //            return false;
+        //    }
+        //    return true;
+        //}
 
         public void AddNewCategoryMixed()
         {
