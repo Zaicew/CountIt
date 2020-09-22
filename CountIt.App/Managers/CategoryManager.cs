@@ -40,18 +40,20 @@ namespace CountIt.App.Managers
             Console.WriteLine("Please type name of category...");
             string nameOfCategory;
             nameOfCategory = Console.ReadLine();
-            if (_categoryService.IsCategoryNameExist(nameOfCategory) == false)
+            if (_categoryService.IsCategoryNameExist(nameOfCategory) == true)
             {
                 Console.WriteLine($"Aplication actually contains that name of category! {nameOfCategory}");
-                var existedCategory = _categoryService.Items.FirstOrDefault(s => s.Name == nameOfCategory);
-                return existedCategory.Id;
+                return _categoryService.GetCategoryByName(nameOfCategory).Id;
+                //var existedCategory = _categoryService.Items.FirstOrDefault(s => s.Name == nameOfCategory);
+                //return existedCategory.Id;
             }
             else
             {
-                var id = _categoryService.GetLastId();
-                var addedCategory = new Category(nameOfCategory, id + 1);
-                _categoryService.Items.Add(addedCategory);
-                return addedCategory.Id;
+                var categoryHolder = _categoryService.CreateCategory(nameOfCategory);
+                //var id = _categoryService.GetLastId();
+                //var addedCategory = new Category(nameOfCategory, id + 1);
+                _categoryService.Items.Add(categoryHolder);
+                return categoryHolder.Id;
             }
         }
 
@@ -64,16 +66,6 @@ namespace CountIt.App.Managers
             }
         }
 
-        //public bool IsCategoryNameExist(string input)
-        //{
-        //    foreach (var item in _categoryService.Items)
-        //    {
-        //        if (item.Name == input)
-        //            return false;
-        //    }
-        //    return true;
-        //}
-
         public void AddNewCategoryMixed()
         {
             _categoryService.Items.Add(new Category("Milky",1));
@@ -81,18 +73,18 @@ namespace CountIt.App.Managers
             _categoryService.Items.Add(new Category("Meat",3));
         }
 
-        public int DeleteCategory(ItemManager _itemManager)
+        public int DeleteCategory(ItemService _itemService)
         {
             Console.Clear();
             Category categoryToDelete = GetCategory();
             if (categoryToDelete.Id == _categoryService.Items.FirstOrDefault(s => s.Name == "unsignedCategory").Id)
             {
                 Console.WriteLine("You cannot to delete default category!");
-                return 0;
+                return -1;
             }
             else
             {
-                _itemManager.SignDefaultCategoryForAllProductsFromDeletingOne(categoryToDelete);
+                _itemService.SignDefaultCategoryForAllProductsFromDeletingOne(categoryToDelete);
                 _categoryService.Items.Remove(categoryToDelete);
                 return categoryToDelete.Id;
             }
@@ -108,6 +100,18 @@ namespace CountIt.App.Managers
             while (!int.TryParse(Console.ReadLine(), out choosenIdOfCategory) || !_categoryService.Items.Contains(_categoryService.Items.FirstOrDefault(s => s.Id == choosenIdOfCategory)));
 
             return _categoryService.Items.FirstOrDefault(p => p.Id == choosenIdOfCategory);
+        }
+
+
+        public bool TestingMethod()
+        {
+            var output = _categoryService.IsCategoryNameExist("as");
+
+            if (output == false)
+                return true;
+            else             
+            return false;
+
         }
     }
 }

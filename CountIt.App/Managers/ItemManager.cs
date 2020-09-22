@@ -99,14 +99,14 @@ namespace CountIt.App.Managers
             }
         }
 
-        public void SignDefaultCategoryForAllProductsFromDeletingOne(Category categoryToDelete)
-        {
-            foreach (var item in _itemService.Items)
-            {
-                if (item.CategoryId == categoryToDelete.Id)
-                    item.CategoryId = 0;
-            }
-        }
+        //public void SignDefaultCategoryForAllProductsFromDeletingOne(Category categoryToDelete)
+        //{
+        //    foreach (var item in _itemService.Items)
+        //    {
+        //        if (item.CategoryId == categoryToDelete.Id)
+        //            item.CategoryId = 0;
+        //    }
+        //}
 
         public void SignProductToCategoryMixed(CategoryService categoryService, ItemService itemService)
         {
