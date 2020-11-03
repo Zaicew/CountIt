@@ -9,19 +9,13 @@ namespace CountIt.App.Managers
 {
     public class MealManager
     {
-        private IService<Meal> _mealservice;
-        public MealManager(MealService mealService)
+        //private readonly IService<Meal> _mealservice;
+        //public MealManager(MealService mealService)
+        //{
+        //    _mealservice = mealService;
+        //} stare -> można usunąć mealservice?
+        public MealManager()
         {
-            _mealservice = mealService;
-        }
-        public bool IsNameMealExist(string nameOfMeal)
-        {
-            foreach (var item in _mealservice.Items)
-            {
-                if (item.NameOfMeal == nameOfMeal)
-                    return false;
-            }
-            return true;
         }
 
         public void ShowAllProductsFromMeal(Meal mealHolder)

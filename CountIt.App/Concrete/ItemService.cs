@@ -8,12 +8,12 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using CountIt.Domain.Entity;
+using CountIt.App.Abstract;
 
 namespace CountIt.App.Concrete
 {
-    public class ItemService : BaseService<Item>
+    public class ItemService : BaseService<Item>, IItemService<Item>
     {
-
         public void SignDefaultCategoryForAllProductsFromDeletingOne(Category categoryToDelete)
         {
             foreach (var item in Items)
@@ -21,6 +21,12 @@ namespace CountIt.App.Concrete
                 if (item.CategoryId == categoryToDelete.Id)
                     item.CategoryId = 0;
             }
+        }
+        public int AddItemByNesseseryData(string name, double kcal, double fat, double protein, double carb, Category category)
+        {
+            var id = GetLastId() + 1;
+            AddItem(new Item(id, name, kcal, fat, protein, carb, category.Id));
+            return id;
         }
     }
 }

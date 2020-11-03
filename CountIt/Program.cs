@@ -15,13 +15,13 @@ namespace CountIt
         static void Main(string[] args)
         {
             MenuActionService actionService = new MenuActionService();
-            ItemService itemService = new ItemService();
-            CategoryService categoryService = new CategoryService();
-            MealService mealService = new MealService();
-            DayService dayService = new DayService();
+            IItemService<Item> itemService = new ItemService();
+            ICategoryService<Category> categoryService = new CategoryService();
+            IDayService<Day> dayService = new DayService();
+            IMealService<Meal> mealService = new MealService();
             ItemManager itemManager = new ItemManager(categoryService, itemService);
             CategoryManager categoryManager = new CategoryManager(categoryService, itemService);
-            MealManager mealManager = new MealManager(mealService);
+            MealManager mealManager = new MealManager();
             DayManager dayManager = new DayManager(actionService, dayService, mealService);
 
             Console.WriteLine("Welcome to CountItApp!");
@@ -57,7 +57,7 @@ namespace CountIt
                                     itemManager.SignProductToCategory(categoryManager);
                                     break;
                                 case '4':
-                                    categoryManager.DeleteCategory(itemManager);
+                                    categoryManager.DeleteCategory();
                                     break;
                                 case '5':
                                     itemManager.DeleteProduct();
@@ -94,7 +94,7 @@ namespace CountIt
                                     dayManager.AddNewDay();
                                     break;
                                 case '2':
-                                    dayManager.AddNewMeal();
+                                    dayManager.ChangeMealName();
                                     break;
                                 case '3':
                                     dayManager.AddProductToMeal(itemManager);
@@ -132,12 +132,12 @@ namespace CountIt
                         exitApp = true;
                         break;
                     case '4':
-                        categoryManager.AddNewCategoryMixed();
-                        itemManager.AddNewItemMixed(categoryService, itemService);
-                        itemManager.SignProductToCategoryMixed(categoryService, itemService);
-                        dayManager.AddNewDayMixed();
-                        dayManager.AddNewMealMixed(mealManager, itemManager, dayService);
-                        dayManager.AddProductsToMealsMixed(mealManager, itemManager, itemService);
+                        //categoryManager.AddNewCategoryMixed();
+                        //itemManager.AddNewItemMixed(categoryService, itemService);
+                        //itemManager.SignProductToCategoryMixed(categoryService, itemService);
+                        //dayManager.AddNewDayMixed();
+                        ////dayManager.AddNewMealMixed(mealManager, itemManager, dayService);
+                        //dayManager.AddProductsToMealsMixed(mealManager, itemManager, itemService);
                         break;
                     default:
                         Console.WriteLine("Please choose right operation!");

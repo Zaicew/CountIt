@@ -3,31 +3,251 @@ using CountIt.App.Concrete;
 using CountIt.App.Managers;
 using CountIt.Domain.Entity;
 using FluentAssertions;
+using FluentAssertions.Common;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 using Moq;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using Xunit;
 
 namespace CountIt.Tests
 {
     public class UnitTest1
     {
+        //testing methods from ICategoryService
+
         [Fact]
-        public void Test1()
+        public void IsCategoryNameExist_Test()
         {
             //Arrange
-            Item item = new Item(150, "Cos", 20, 20, 20, 20, 2);
-            var mock = new Mock<IService<Item>>();
-            mock.Setup(s => s.GetItemById(150)).Returns(item);
+            var categoryService = new CategoryService();
+            var trueCategory = new Category("true", 0);
+            var fakeCategory = new Category("false", 1);
 
-            var manager = new ItemManager(new CategoryService(), mock.Object);
+            categoryService.AddItem(trueCategory);
+
             //Act
+            var trueOutput = categoryService.IsCategoryNameExist(trueCategory.Name);
+            var falseOutput = categoryService.IsCategoryNameExist(fakeCategory.Name);
 
-            var returnedItem = manager.GetItemById(item.Id);
             //Assert
-
-            Assert.Equal(item, returnedItem);
+            trueOutput.Should().BeTrue();
+            falseOutput.Should().BeFalse();
         }
+        [Fact]
+        public void GetCategoryByName_Test()
+        {
+            //Arrange
+            var categoryService = new CategoryService();
+            var categoryHolder = new Category("Milky", 2);
+
+            categoryService.Items.Add(categoryHolder);
+
+            //Act
+            var output = categoryService.GetCategoryByName("Milky");
+            //Assert
+            output.Should().NotBeNull();
+            output.Should().BeOfType<Category>();
+            output.Should().BeSameAs(categoryHolder);
+        }
+        [Fact]
+        public void CreateCategory_Test()
+        {
+            //Arrange
+            var categoryService = new CategoryService();
+            categoryService.Items.Add(new Category("", 100));
+
+            //Act
+            var output = categoryService.CreateCategory("");
+
+            //Assert
+            output.Should().NotBeNull();
+            output.Should().BeOfType<Category>();
+            output.Id.Should().IsSameOrEqualTo(101);
+            categoryService.Items.Should().Contain(output);            
+        }
+        [Fact]
+        public void GetCategoryById_Test()
+        {
+            //Arrange
+            var categoryService = new CategoryService();
+            var trueCategory = new Category("trueName", 10);
+            var falseCategory = new Category("falseName", 20);
+
+            categoryService.AddItem(trueCategory);
+            //Act
+            var trueOutput = categoryService.GetCategoryById(10);
+            var falseOutput = categoryService.GetCategoryById(20);
+
+            //Assert
+            trueOutput.Should().NotBeNull();
+            trueOutput.Should().BeOfType<Category>();
+            trueOutput.Id.Should().IsSameOrEqualTo(10);
+            trueOutput.Name.Should().BeSameAs("trueName");
+
+            falseOutput.Should().BeNull();
+            categoryService.Items.Should().NotContain(falseCategory);
+        }
+
+        //testing methods from IDayService
+
+        [Fact]
+        public void CreateNewDayByDateTime_Test()
+        {
+            //Arrange
+            var dayService = new DayService();
+            var mealService = new MealService();
+            dayService.Items.Add(new Day(new DateTime(2020, 10, 10), 100));
+            var dateTime = new DateTime(2020, 08, 18);
+
+            //Act
+            var output = dayService.CreateNewDayByDateTime(dateTime, mealService);
+
+            //Assert
+            output.Should().NotBeNull();
+            output.Should().BeOfType<Day>();
+            output.Id.Should().IsSameOrEqualTo(101);
+            dayService.Items.Should().Contain(output);
+        }
+        [Fact]
+        public void RecalculateMacrosInDay_Test()
+        {
+            //Arrange
+            var dayService = new DayService();
+            var mealService = new MealService();
+            var day = new Day(new DateTime(2020, 10, 15), 1); 
+            dayService.Items.Add(day);
+            //var meal = new Meal("meal", 1);
+            //meal.ProductsInMeal.Add(new ItemInMeal(new Item(1, "", 100, 100, 100, 100, 1), 9000));
+            day.mealList = dayService.AddDomainMealsToDay(mealService);
+            day.mealList[0].ProductsInMeal.Add(new ItemInMeal(new Item(1, "", 100, 100, 100, 100, 1), 9000));
+            dayService.RecalculateMacrosInMeal(day.mealList[0]);
+            //Act
+            dayService.RecalculateMacrosInDay(day);
+            //Assert
+            day.TotalKcal.IsSameOrEqualTo(900000);
+        }
+        [Fact]
+        public void RecalculateMacrosInMeal_Test()
+        {
+            //Arrange
+            var dayService = new DayService();
+            var meal = new Meal("", 1);
+            meal.ProductsInMeal.Add(new ItemInMeal(new Item(1, "", 50, 50, 50, 50, 1), 100));
+
+            //Act
+            dayService.RecalculateMacrosInMeal(meal);
+            //Assert
+            meal.Weight.IsSameOrEqualTo(100);
+            meal.TotalKcal.IsSameOrEqualTo(50);
+        }
+        [Fact]
+        public void AddNewMealinDay()
+        {
+            //Arrange
+            var categoryService = new CategoryService();
+            var itemService = new ItemService();
+            var categoryManager = new CategoryManager(categoryService, itemService);
+            var dayService = new DayService();
+            string name = "Some name";
+            var day = new Day(new DateTime(2020, 10, 10), 1);
+
+            //Act
+           // var output = dayService.AddNewMealinDay(name, day);
+
+            //Assert
+            //output.Should
+
+        }
+        [Fact]
+        public void AddProductToMeal()
+        {
+            //Arrange
+            //Act
+            //Assert
+        }
+        [Fact]
+        public void DeleteMeal()
+        {
+            //Arrange
+            //Act
+            //Assert
+        }
+        [Fact]
+        public void RemoveProductFromMeal()
+        {
+            //Arrange
+            ItemInMeal item = new ItemInMeal(new Item(10, "", 50, 50, 50, 50, 0), 500);
+            MealService mealService = new MealService();
+            DayService dayService = new DayService();
+            Meal meal = new Meal("Name", 10);
+            meal.ProductsInMeal.Add(item);
+            Day day = new Day(new DateTime(2020, 10, 10), 10);
+            day.mealList = dayService.AddDomainMealsToDay(mealService);
+            day.mealList[0] = meal;
+            dayService.RecalculateMacrosInMeal(meal);
+            Debug.WriteLine("***************************************************************************");
+
+            Debug.WriteLine($"MEAL Macros: {meal.TotalCarbs}, {meal.TotalFat}, {meal.TotalKcal}, {meal.TotalProtein}.");
+            dayService.RecalculateMacrosInDay(day);
+            Debug.WriteLine($"DAY Macros: {day.TotalCarbs}, {day.TotalFat}, {day.TotalKcal}, {day.TotalProtein}.");
+
+
+            //Act
+            var output = dayService.RemoveProductFromMeal(item, meal, day);
+            Debug.WriteLine("***************************************************************************");
+
+            Debug.WriteLine($"MEAL Macros: {meal.TotalCarbs}, {meal.TotalFat}, {meal.TotalKcal}, {meal.TotalProtein}.");
+            Debug.WriteLine($"DAY Macros: {day.TotalCarbs}, {day.TotalFat}, {day.TotalKcal}, {day.TotalProtein}.");
+            //Assert
+            output.IsSameOrEqualTo(10);
+            day.mealList[0].ProductsInMeal.Should().NotContain(item);
+        }
+
+        //testing methods from IDayService
+
+        [Fact]
+        public void SignDefaultCategoryForAllProductsFromDeletingOne_Test()
+        {
+            //Arrange
+            //Act
+            //Assert
+        }
+        [Fact]
+        public void AddItemByNesseseryData_Test()
+        {
+            //Arrange
+            //Act
+            //Assert
+        }
+
+        //test IService
+
+        [Fact]
+        public void GetLastId_Test()
+        {
+            //Arrange
+            //Act
+            //Assert
+        }
+
+        //[Fact]
+        //public void Test1()
+        //{
+        //    //Arrange
+        //    Item item = new Item(150, "Cos", 20, 20, 20, 20, 2);
+        //    var mock = new Mock<IService<Item>>();
+        //    mock.Setup(s => s.GetItemById(150)).Returns(item);
+
+        //    var manager = new ItemManager(new CategoryService(), mock.Object);
+        //    //Act
+
+        //    var returnedItem = manager.GetItemById(item.Id);
+        //    //Assert
+
+        //    Assert.Equal(item, returnedItem);
+        //}
 
         [Fact]
         public void Mojpierwszytest()
@@ -46,6 +266,7 @@ namespace CountIt.Tests
             returnedItem.Should().Be(item.Id);
             returnedItem.Should().NotBe(null);
         }
+
         //[Fact]
         //public void IsDayExistingInDatabaseTest()
         //{
@@ -53,13 +274,13 @@ namespace CountIt.Tests
         //    var dayTrue = new Day(new DateTime(2020, 09, 10), 1);
         //    var dayFalse = new Day(new DateTime(2020, 09, 11), 2);
 
-        //    var mock = new Mock<IService<Day>>();
-        //    mock.Object.Items.Add(dayTrue);
-        //    var day = mock.Object.AddItem(dayTrue);
+        //    var mock = new Mock<IDayService<Day>>();
+        //    //mock.Object.Items.Add(dayTrue);
+        //    //var day = mock.Object.AddItem(dayTrue);
         //    //mock.Object.AddItem(new Day(new DateTime(2020, 09, 09), 3));
         //    //mock.Object.AddItem(new Day(new DateTime(2020, 09, 08), 4));
         //    //mock.Object.AddItem(new Day(new DateTime(2020, 09, 07), 3));
-        //    //mock.Setup(s => s.AddItem(dayTrue)).Returns(1)
+        //    mock.Setup(s => s.AddItem(dayTrue)).Returns(1);
         //    DayManager dayManager = new DayManager(mock.Object);
 
         //    //Act
@@ -67,8 +288,8 @@ namespace CountIt.Tests
         //    var falseAnswer = dayManager.IsDayExistinginDatabase(dayTrue.DateTime);
 
         //    //Assert
-        //    trueAnswer.Should().BeTrue();
-        //    falseAnswer.Should().BeFalse();
+        //    trueAnswer.Should().BeFalse();
+        //    //falseAnswer.Should().BeFalse();
         //}
 
         [Fact]
@@ -92,11 +313,8 @@ namespace CountIt.Tests
         public void TestingMetod_Test()
         {
             //Arrange
-            //var categoryMock = new Mock<CategoryService>();
             var categoryMock = new CategoryService();
             var itemMock = new ItemService();
-
-            //categoryMock.Setup(s => s.IsCategoryNameExist("as")).Returns(false);
 
             var categoryManager = new CategoryManager(categoryMock, itemMock);
             //Act
@@ -105,26 +323,6 @@ namespace CountIt.Tests
             //Assert
             output.Should().BeTrue();
         }        
-        [Fact]
-        public void GetCategoryByName_Test()
-        {
-            //Arrange
-            //var categoryMock = new Mock<CategoryService>();
-            //var categoryHolder = new Category("Milky", 2);
-            var categoryService = new CategoryService();
-            var categoryHolder = new Category("Milky", 2);
-
-            //categoryMock.Object.Items.Add(categoryHolder);
-            categoryService.Items.Add(categoryHolder);
-                      
-            //categoryMock.Setup(s => s.GetCategoryByName("Milky")).Returns(categoryHolder);
-
-            //Act
-            var output = categoryService.GetCategoryByName("Milky");
-            //Assert
-            output.Should().NotBeNull();
-            output.Should().BeOfType<Category>();
-            output.Should().BeSameAs(categoryHolder);
-        }
+       
     }
 }

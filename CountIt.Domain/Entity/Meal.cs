@@ -12,7 +12,8 @@ namespace CountIt.Domain.Entity
         public double TotalFat { get; set; }
         public double TotalProtein { get; set; }
         public double TotalCarbs { get; set; }
-        public double TotalGrams { get; set; }
+        public double Weight { get; set; }
+        public bool IsVisible { get; set; }
         public List<ItemInMeal> ProductsInMeal { get; set; }
         public Meal()
         {
@@ -23,7 +24,8 @@ namespace CountIt.Domain.Entity
             TotalCarbs = 0;
             NameOfMeal = "unsignedMealName";
             ProductsInMeal = new List<ItemInMeal>();
-            TotalGrams = 0;
+            Weight = 0;
+            IsVisible = true;
         }        
         public Meal(string name, int id)
            : base(id)
@@ -34,7 +36,8 @@ namespace CountIt.Domain.Entity
             TotalCarbs = 0;
             NameOfMeal = name;
             ProductsInMeal = new List<ItemInMeal>();
-            TotalGrams = 0;
+            Weight = 0;
+            IsVisible = true;
         }        
     }
 }

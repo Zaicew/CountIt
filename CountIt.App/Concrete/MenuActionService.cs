@@ -15,12 +15,6 @@ namespace CountIt.App.Concrete
             Initialize();
         }
 
-        //public void AddNewAction(int id, string name, string menuName)
-        //{
-        //   // MenuAction menuAction = new MenuAction() { Id = id, Name = name, MenuName = menuName };
-        //    MenuAction menuAction = new MenuAction(id, name, menuName);
-        //    menuActions.Add(menuAction);
-        //}
         public List<MenuAction> GetMenuActrionsByMenuName(string menuName)
         {
             List<MenuAction> result = new List<MenuAction>();
@@ -51,8 +45,8 @@ namespace CountIt.App.Concrete
             AddItem(new MenuAction(8, "Show all products from choosen category", "ManagementApplication"));
             AddItem(new MenuAction(9, "Back", "ManagementApplication"));
 
-            AddItem(new MenuAction(1, "Add meal day", "UserCalculator"));
-            AddItem(new MenuAction(2, "Add meal", "UserCalculator"));
+            AddItem(new MenuAction(1, "Add day to your calculator", "UserCalculator"));
+            AddItem(new MenuAction(2, "Change meal name", "UserCalculator"));
             AddItem(new MenuAction(3, "Add product to meal", "UserCalculator"));
             AddItem(new MenuAction(4, "Delete product from meal", "UserCalculator"));
             AddItem(new MenuAction(5, "Delete day", "UserCalculator"));

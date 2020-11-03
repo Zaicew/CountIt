@@ -24,17 +24,14 @@ namespace CountIt.App.Common
             Items.Add(item);
             return item.Id;
         }
-
         public List<T> GetAllItems()
         {
             return Items;
         }
-
         public void RemoveItem(T item)
         {
             Items.Remove(item);
         }
-
         public int UpdateItem(T item)
         {
             var entity = Items.FirstOrDefault(s => s.Id == item.Id);
@@ -44,7 +41,6 @@ namespace CountIt.App.Common
             }
             return entity.Id;
         }
-
         public int GetLastId()
         {
             int lastId;
@@ -54,7 +50,7 @@ namespace CountIt.App.Common
             }
             else
             {
-                lastId = 1;
+                lastId = 0;
             }
             return lastId;
         }

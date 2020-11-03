@@ -12,9 +12,10 @@ namespace CountIt.App.Managers
     {
         //private ItemService _itemService;
         //private CategoryService _categoryService; 
-        private IService<Item> _itemService;
-        private IService<Category> _categoryService;
-        public ItemManager(CategoryService categoryService, IService<Item> itemService)
+        private readonly IItemService<Item> _itemService;
+        private readonly ICategoryService<Category> _categoryService;
+
+        public ItemManager(ICategoryService<Category> categoryService, IItemService<Item> itemService)
         {
             _categoryService = categoryService;
             _itemService = itemService;
@@ -55,11 +56,11 @@ namespace CountIt.App.Managers
                 while (double.TryParse(Console.ReadLine(), out carb) != true);
 
                 var choosenCategory = _categoryManager.GetCategory();
-                int id = _itemService.GetLastId();
-                Item itemHolder = new Item(id + 1, name, kcal, fat, protein, carb, choosenCategory.Id);
-                _itemService.AddItem(itemHolder);
-
-                return itemHolder.Id;
+                //int id = _itemService.GetLastId();
+                //Item itemHolder = new Item(id + 1, name, kcal, fat, protein, carb, choosenCategory.Id);
+                //_itemService.AddItem(itemHolder);
+                var id = _itemService.AddItemByNesseseryData(name, kcal, fat, protein, carb, choosenCategory);
+                return id;
             }
         }
 
@@ -108,47 +109,47 @@ namespace CountIt.App.Managers
         //    }
         //}
 
-        public void SignProductToCategoryMixed(CategoryService categoryService, ItemService itemService)
-        {
-            Random rnd = new Random();
-            foreach (var item in itemService.Items)
-            {
-                item.CategoryId = categoryService.Items[rnd.Next(1, 3)].Id;
-            }
-        }
+        //public void SignProductToCategoryMixed(CategoryService categoryService, ItemService itemService)
+        //{
+        //    Random rnd = new Random();
+        //    foreach (var item in itemService.Items)
+        //    {
+        //        item.CategoryId = categoryService.Items[rnd.Next(1, 3)].Id;
+        //    }
+        //}
 
-        public void AddNewItemMixed(CategoryService categoryService, ItemService itemService)
-        {
-            string[] names = { "Milk", "Sausage", "Nutella", "Chips", "Orange Juice", "Orange", "Apple", "Strawberry", "Pumpkin", "Chicken Breast", "White bread", "Cookies", "Fish", "Garlic dip", "Yoghurt" };
-            double[] kcals = { 10.1, 100, 190, 154.5, 390.4, 38.8, 4.9, 45, 10, 19 };
+        //public void AddNewItemMixed(CategoryService categoryService, ItemService itemService)
+        //{
+        //    string[] names = { "Milk", "Sausage", "Nutella", "Chips", "Orange Juice", "Orange", "Apple", "Strawberry", "Pumpkin", "Chicken Breast", "White bread", "Cookies", "Fish", "Garlic dip", "Yoghurt" };
+        //    double[] kcals = { 10.1, 100, 190, 154.5, 390.4, 38.8, 4.9, 45, 10, 19 };
 
-            Random rnd = new Random();
-            for (int i = 0; i < 50; i++)
-            {
-                int itemId = _itemService.GetLastId();
-                _itemService.Items.Add(new Item(itemId + 1, names[rnd.Next(1, 15)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)],
-                    categoryService.Items[rnd.Next(1, categoryService.Items.Count)].Id));
-            }
-        }
+        //    Random rnd = new Random();
+        //    for (int i = 0; i < 50; i++)
+        //    {
+        //        int itemId = _itemService.GetLastId();
+        //        _itemService.Items.Add(new Item(itemId + 1, names[rnd.Next(1, 15)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)], kcals[rnd.Next(1, 10)],
+        //            categoryService.Items[rnd.Next(1, categoryService.Items.Count)].Id));
+        //    }
+        //}
 
-        private bool ChceckItemListContainsCurrentItemFromId(int id)
-        {
-            foreach (var item in _itemService.Items)
-            {
-                if (item.Id == id)
-                    return true;
-            }
-            return false;
-        }
-        private bool ChceckCategoryListContainsCurrentCategoryFromId(int id, CategoryService categories)
-        {
-            foreach (var item in categories.Items)
-            {
-                if (item.Id == id)
-                    return true;
-            }
-            return false;
-        }
+        //private bool ChceckItemListContainsCurrentItemFromId(int id)
+        //{
+        //    foreach (var item in _itemService.Items)
+        //    {
+        //        if (item.Id == id)
+        //            return true;
+        //    }
+        //    return false;
+        //}
+        //private bool ChceckCategoryListContainsCurrentCategoryFromId(int id, CategoryService categories)
+        //{
+        //    foreach (var item in categories.Items)
+        //    {
+        //        if (item.Id == id)
+        //            return true;
+        //    }
+        //    return false;
+        //}
 
         public Item GetItem()
         {
@@ -161,13 +162,7 @@ namespace CountIt.App.Managers
             }
             while (!int.TryParse(Console.ReadLine(), out choosenIdOfItem) || !_itemService.Items.Contains(_itemService.Items.FirstOrDefault(s => s.Id == choosenIdOfItem)));
 
-            return _itemService.Items.FirstOrDefault(s => s.Id == choosenIdOfItem);
-        }
-
-        public Item GetItemById(int id)
-        {
-            var entity = _itemService.GetItemById(id);
-            return entity;
+            return _itemService.GetItemById(choosenIdOfItem); //czemu to działa?? xD bez dodania do IItemService metody GetItemById!!!
         }
     }
 }
