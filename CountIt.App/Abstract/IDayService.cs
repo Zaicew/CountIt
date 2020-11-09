@@ -17,9 +17,5 @@ namespace CountIt.App.Abstract
         int AddProductToMeal(ItemInMeal item, Meal meal, Day day);
         int HideMeal(Meal meal, Day day);
         Meal[] AddDomainMealsToDay(IMealService<Meal> mealService);
-        //int HowManyMealsAreVisibleInDay(Day day);
-
     }
-
-
 }

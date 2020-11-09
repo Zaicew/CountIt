@@ -9,6 +9,7 @@ using Moq;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using Xunit;
 
 namespace CountIt.Tests
@@ -118,8 +119,6 @@ namespace CountIt.Tests
             var mealService = new MealService();
             var day = new Day(new DateTime(2020, 10, 15), 1); 
             dayService.Items.Add(day);
-            //var meal = new Meal("meal", 1);
-            //meal.ProductsInMeal.Add(new ItemInMeal(new Item(1, "", 100, 100, 100, 100, 1), 9000));
             day.mealList = dayService.AddDomainMealsToDay(mealService);
             day.mealList[0].ProductsInMeal.Add(new ItemInMeal(new Item(1, "", 100, 100, 100, 100, 1), 9000));
             dayService.RecalculateMacrosInMeal(day.mealList[0]);
@@ -135,7 +134,6 @@ namespace CountIt.Tests
             var dayService = new DayService();
             var meal = new Meal("", 1);
             meal.ProductsInMeal.Add(new ItemInMeal(new Item(1, "", 50, 50, 50, 50, 1), 100));
-
             //Act
             dayService.RecalculateMacrosInMeal(meal);
             //Assert
@@ -143,36 +141,22 @@ namespace CountIt.Tests
             meal.TotalKcal.IsSameOrEqualTo(50);
         }
         [Fact]
-        public void AddNewMealinDay()
-        {
-            //Arrange
-            var categoryService = new CategoryService();
-            var itemService = new ItemService();
-            var categoryManager = new CategoryManager(categoryService, itemService);
-            var dayService = new DayService();
-            string name = "Some name";
-            var day = new Day(new DateTime(2020, 10, 10), 1);
-
-            //Act
-           // var output = dayService.AddNewMealinDay(name, day);
-
-            //Assert
-            //output.Should
-
-        }
-        [Fact]
         public void AddProductToMeal()
         {
             //Arrange
+            var itemInMeal = new ItemInMeal(new Item(10, "name", 100, 100, 100, 100, 0), 50);
+            var day = new Day(new DateTime(2020, 12, 12), 10);
+            var dayService = new DayService();
+            var mealService = new MealService();
+            day.mealList = dayService.AddDomainMealsToDay(mealService);
             //Act
+            var output = dayService.AddProductToMeal(itemInMeal, day.mealList[0], day);
             //Assert
-        }
-        [Fact]
-        public void DeleteMeal()
-        {
-            //Arrange
-            //Act
-            //Assert
+            output.Should().NotBe(null);
+            day.mealList[0].Should().NotBe(null);
+            day.mealList[0].NameOfMeal.Should().BeSameAs("Breakfast");
+            day.mealList[0].ProductsInMeal.Should().NotBeNullOrEmpty();
+            day.mealList[0].ProductsInMeal.Should().Contain(itemInMeal);
         }
         [Fact]
         public void RemoveProductFromMeal()
@@ -204,15 +188,87 @@ namespace CountIt.Tests
             output.IsSameOrEqualTo(10);
             day.mealList[0].ProductsInMeal.Should().NotContain(item);
         }
+        [Fact]
+        public void HideMeal_Test()
+        {            
+            //Arrange
+            var itemInMeal = new ItemInMeal(new Item(10, "name", 100, 100, 100, 100, 0), 50);
+            var day = new Day(new DateTime(2020, 12, 12), 10);
+            var dayService = new DayService();
+            var mealService = new MealService();
+            day.mealList = dayService.AddDomainMealsToDay(mealService);
+            //Act
+            var outputTrue = dayService.HideMeal(day.mealList[0], day);
+            var outputFalse = dayService.HideMeal(day.mealList[0], day);
+            dayService.HideMeal(day.mealList[1], day);
+            dayService.HideMeal(day.mealList[2], day);
+            dayService.HideMeal(day.mealList[3], day);
+            dayService.HideMeal(day.mealList[4], day);
+            var outputVisibleDaysAreLessThanTwo = dayService.HideMeal(day.mealList[5], day);
+            //Assert
+            outputTrue.Should().Be(day.mealList[0].Id);
+            outputFalse.Should().Be(-1);
+            outputVisibleDaysAreLessThanTwo.Should().Be(-2);
 
-        //testing methods from IDayService
+        }
+        [Fact]
+        public void AddDomainMealsInDay()
+        {
+            //Arrange
+            var dayService = new DayService();
+            var mealService = new MealService();
+            //Act
+            var output = dayService.AddDomainMealsToDay(mealService);
+            //Assert
+            output.Should().NotBeNullOrEmpty();
+            output.Length.Should().Be(6);
+            output[0].NameOfMeal.Should().Be("Breakfast");
+            output[1].NameOfMeal.Should().Be("Second Breakfast");
+            output[2].NameOfMeal.Should().Be("Lunch");
+            output[3].NameOfMeal.Should().Be("Midday Meal");
+            output[4].NameOfMeal.Should().Be("Snack");
+            output[5].NameOfMeal.Should().Be("Dinner");
+        }
+        [Fact]
+        public void HowManyMealsAreVisibleInDay()
+        {
+            //Arrange
+            var day = new Day(new DateTime(2020, 12, 12), 10);
+            var dayService = new DayService();
+            var mealService = new MealService();
+            day.mealList = dayService.AddDomainMealsToDay(mealService);
+            //Act
+            var outputFull = dayService.HowManyMealsAreVisibleInDay(day);
+            day.mealList[0].IsVisible = false;
+            day.mealList[1].IsVisible = false;
+            day.mealList[2].IsVisible = false;
+            day.mealList[3].IsVisible = false;
+            day.mealList[4].IsVisible = false;
+            day.mealList[5].IsVisible = false;
+            var outputNull = dayService.HowManyMealsAreVisibleInDay(day);
+            //Assert
+            outputFull.Should().Be(6);
+            outputNull.Should().Be(0);
+        }
+
+
+        //testing methods from IItemService
 
         [Fact]
         public void SignDefaultCategoryForAllProductsFromDeletingOne_Test()
-        {
+        {            
             //Arrange
+            var categoryToDelete = new Category("Delete", 1);
+            var item1 = new Item(1, "Name", 10, 10, 10, 10, 1);
+            var item2 = new Item(2, "Name", 10, 10, 10, 10, 2);
+            var itemService = new ItemService();
+            itemService.Items.Add(item1);
+            itemService.Items.Add(item2);
             //Act
+            itemService.SignDefaultCategoryForAllProductsFromDeletingOne(categoryToDelete);
             //Assert
+            itemService.Items.FirstOrDefault(s => s.Id == 1).CategoryId.Should().Be(0);
+            itemService.Items.FirstOrDefault(s => s.Id == 2).CategoryId.Should().Be(2);
         }
         [Fact]
         public void AddItemByNesseseryData_Test()
@@ -231,7 +287,6 @@ namespace CountIt.Tests
             //Act
             //Assert
         }
-
         //[Fact]
         //public void Test1()
         //{
@@ -248,7 +303,6 @@ namespace CountIt.Tests
 
         //    Assert.Equal(item, returnedItem);
         //}
-
         [Fact]
         public void Mojpierwszytest()
         {
@@ -266,7 +320,6 @@ namespace CountIt.Tests
             returnedItem.Should().Be(item.Id);
             returnedItem.Should().NotBe(null);
         }
-
         //[Fact]
         //public void IsDayExistingInDatabaseTest()
         //{
@@ -291,7 +344,6 @@ namespace CountIt.Tests
         //    trueAnswer.Should().BeFalse();
         //    //falseAnswer.Should().BeFalse();
         //}
-
         [Fact]
         public void IsDayExistingInDatabaseTest_Senaszel()
         {
@@ -322,7 +374,6 @@ namespace CountIt.Tests
 
             //Assert
             output.Should().BeTrue();
-        }        
-       
+        }               
     }
 }

@@ -114,17 +114,23 @@ namespace CountIt.App.Concrete
         }
         public int HideMeal(Meal meal, Day day)
         {
+            if (meal.IsVisible == false)
+            {
+                Console.WriteLine("This meal is not visible!");
+                return -1;
+            }
             if (HowManyMealsAreVisibleInDay(day) < 2)
             {
                 Console.WriteLine("We should to have at least one active meal in day!");
-                return -1;
+                return -2;
             }
+
             meal.IsVisible = false;
             RecalculateMacrosInMeal(meal);
             RecalculateMacrosInDay(day);
             return meal.Id;
         }
-        private int HowManyMealsAreVisibleInDay(Day day)
+        public int HowManyMealsAreVisibleInDay(Day day)
         {
             int counter = 0;
             foreach (var item in day.mealList)
