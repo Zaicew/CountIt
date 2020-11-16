@@ -274,19 +274,17 @@ namespace CountIt.Tests
         public void AddItemByNesseseryData_Test()
         {
             //Arrange
+            var itemService = new ItemService();
+            itemService.AddItem(new Item(100));
             //Act
+            var output = itemService.AddItemByNesseseryData("", 1, 1, 1, 1, new Category("name", 1));
             //Assert
+            output.Should().NotBe(null);
+            output.Should().Be(101);
         }
 
-        //test IService
+        //first tests
 
-        [Fact]
-        public void GetLastId_Test()
-        {
-            //Arrange
-            //Act
-            //Assert
-        }
         //[Fact]
         //public void Test1()
         //{
@@ -345,7 +343,7 @@ namespace CountIt.Tests
         //    //falseAnswer.Should().BeFalse();
         //}
         [Fact]
-        public void IsDayExistingInDatabaseTest_Senaszel()
+        public void IsDayExistingInDatabaseTest()
         {
             //Arrange
 
