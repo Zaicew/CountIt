@@ -24,8 +24,10 @@ namespace CountIt.App.Managers
         public CategoryManager(ICategoryService<Category> categoryService, IItemService<Item> itemService)
         {
             _categoryService = categoryService;
-            _categoryService.Items.Add(new Category("unsignedCategory", 0));
             _itemService = itemService;
+
+            if(!_categoryService.Items.Contains(_categoryService.Items.FirstOrDefault(s => s.Name == "unsignedCategory")))
+            _categoryService.Items.Add(new Category("unsignedCategory", 0));
         }
 
         public ConsoleKeyInfo CategoryServiceView(MenuActionService actionService)

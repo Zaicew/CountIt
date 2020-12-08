@@ -98,18 +98,18 @@ namespace CountIt.Tests
         {
             //Arrange
             var dayService = new DayService();
-            var mealService = new MealService();
+            var mock = new Mock<MealService>();
             dayService.Items.Add(new Day(new DateTime(2020, 10, 10), 100));
             var dateTime = new DateTime(2020, 08, 18);
 
             //Act
-            var output = dayService.CreateNewDayByDateTime(dateTime, mealService);
+            var outputTrue = dayService.CreateNewDayByDateTime(dateTime, mock.Object);
 
             //Assert
-            output.Should().NotBeNull();
-            output.Should().BeOfType<Day>();
-            output.Id.Should().IsSameOrEqualTo(101);
-            dayService.Items.Should().Contain(output);
+            outputTrue.Should().NotBeNull();
+            outputTrue.Should().BeOfType<Day>();
+            outputTrue.Id.Should().IsSameOrEqualTo(101);
+            dayService.Items.Should().Contain(outputTrue);
         }
         [Fact]
         public void RecalculateMacrosInDay_Test()
@@ -285,22 +285,7 @@ namespace CountIt.Tests
 
         //first tests
 
-        //[Fact]
-        //public void Test1()
-        //{
-        //    //Arrange
-        //    Item item = new Item(150, "Cos", 20, 20, 20, 20, 2);
-        //    var mock = new Mock<IService<Item>>();
-        //    mock.Setup(s => s.GetItemById(150)).Returns(item);
-
-        //    var manager = new ItemManager(new CategoryService(), mock.Object);
-        //    //Act
-
-        //    var returnedItem = manager.GetItemById(item.Id);
-        //    //Assert
-
-        //    Assert.Equal(item, returnedItem);
-        //}
+        
         [Fact]
         public void Mojpierwszytest()
         {

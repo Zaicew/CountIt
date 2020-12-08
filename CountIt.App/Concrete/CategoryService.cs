@@ -11,6 +11,15 @@ namespace CountIt.App.Concrete
 {
     public class CategoryService : BaseService<Category>, ICategoryService<Category>
     {
+        public CategoryService()
+        {
+
+        }
+        public CategoryService(string path)
+        {
+            Items = ReadFromXml("categories", path).ToList();
+        }
+
         public bool IsCategoryNameExist(string input)
         {
             foreach (var item in Items)

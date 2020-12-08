@@ -15,9 +15,13 @@ namespace CountIt.App.Concrete
     public class DayService : BaseService<Day>, IDayService<Day>
     {
         public List<Meal> MealsListInDay { get; set; }
-        public DayService() : base()
+        public DayService()
         {
 
+        }
+        public DayService(string path)
+        {
+            Items = ReadFromXml("days", path).ToList();
         }
         public int RemoveProductFromMeal(ItemInMeal item, Meal meal, Day day)
         {

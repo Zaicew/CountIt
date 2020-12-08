@@ -9,6 +9,14 @@ using System.Text;
 namespace CountIt.App.Concrete
 {
     public class MealService : BaseService<Meal>, IMealService<Meal>
-    {       
+    {
+        public MealService()
+        {
+
+        }
+        public MealService(string path)
+        {
+            Items = ReadFromXml("meals", path).ToList();
+        }
     }
 }

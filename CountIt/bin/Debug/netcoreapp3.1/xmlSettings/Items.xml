@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Item>
+    <Id>1</Id>
+    <Name>1</Name>
+    <Kcal>1</Kcal>
+    <Fat>1</Fat>
+    <Protein>1</Protein>
+    <Carb>1</Carb>
+    <CategoryId>1</CategoryId>
+  </Item>
+  <Item>
+    <Id>2</Id>
+    <Name>2</Name>
+    <Kcal>2</Kcal>
+    <Fat>2</Fat>
+    <Protein>2</Protein>
+    <Carb>2</Carb>
+    <CategoryId>2</CategoryId>
+  </Item>
+  <Item>
+    <Id>3</Id>
+    <Name>3</Name>
+    <Kcal>3</Kcal>
+    <Fat>3</Fat>
+    <Protein>3</Protein>
+    <Carb>3</Carb>
+    <CategoryId>3</CategoryId>
+  </Item>
+</items>
