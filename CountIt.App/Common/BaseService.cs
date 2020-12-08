@@ -68,16 +68,6 @@ namespace CountIt.App.Common
             {
                 serializer.Serialize(streamWriter, Items);
             }
-            //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            //path += "\\" + "xxxxxxxDDDDD";
-            //Directory.CreateDirectory(path);
-            ////string path1 = Environment.GetFolderPath(Environment.SpecialFolderOption.Create);
-            //string fileName = "itemslisttested";
-            //string filePath2 = path + "\\" + fileName + ".xml";
-            //var writer = new StreamWriter(filePath, false);
-            //serializer1.Serialize(writer, listtest);
-            //writer.Close();
-            //Console.WriteLine(path);
         }
 
         public IEnumerable<T> ReadFromXml(string name, string path)
@@ -94,64 +84,6 @@ namespace CountIt.App.Common
 
             var items = (IEnumerable<T>)serializer.Deserialize(stringReader);
             return items;
-
-
-            ////data for download
-            //var listtestdownload = new List<Item>();
-            //listtestdownload = listtest;
-
-            ////empty data!
-            //listtest.Clear();
-
-            //foreach (var element in listtest)
-            //{
-            //    Console.WriteLine($"Name: {element.Name}, id: { element.Id}");
-            //}
-            //Console.WriteLine("2---------------------------------");
-
-            ////download 
-
-            ////static XmlRootAttribute SetNameOfNode(string nameOfNode)
-            ////{
-            ////    XmlRootAttribute xmlRootAttribute = new XmlRootAttribute();
-            ////    xmlRootAttribute.ElementName = nameOfNode;
-            ////    xmlRootAttribute.IsNullable = true;
-            ////    return xmlRootAttribute;
-            ////}
-            ////XmlRootAttribute xmlRootAttribute = new XmlRootAttribute();
-            ////xmlRootAttribute.ElementName = typeof(Item).Name;
-            ////xmlRootAttribute.IsNullable = true;
-            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Item>), SetNameOfNode("costamdodano"));
-            //string xml;
-            //List<Item> objectsXml = new List<Item>();
-            ////string pathdownload = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
-            //string pathdownload = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            //pathdownload += "\\" + "xxxxxxxDDDDD";
-
-            //string fileNamedownload = "itemslisttested";
-
-
-            //xml = File.ReadAllText(pathdownload + @"\" + fileNamedownload + ".xml");
-
-            //StringReader stringReader = new StringReader(xml);
-
-            //objectsXml = (List<Item>)xmlSerializer.Deserialize(stringReader);
-
-            //stringReader.Close();
-
-
-            ////objectsXml = ConvertEnemiesByCategory(objectsXml);
-
-            //foreach (var item in objectsXml)
-            //{
-            //    listtest.Add(new Item(item.Id, item.Name, item.Kcal, item.Fat, item.Protein, item.Carb, item.CategoryId));
-            //}
-            //foreach (var element in listtest)
-            //{
-            //    Console.WriteLine($"Name: {element.Name}, id: { element.Id}");
-            //}
-            //Console.WriteLine("3---------------------------------");
-
         }
     }
 }
